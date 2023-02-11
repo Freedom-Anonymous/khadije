@@ -1,0 +1,149 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+{%include 'content_agent/send/pageStep.html'%}
+
+<div class="f justify-center">
+	<div class="c9 s12 m12">
+		<div class="cbox">
+			<table class="tbl1 v4">
+				<tbody>
+					<tr class="positive">
+						<td>عنوان</td>
+						<td class="txtB">{{dataRow.title}}</td>
+					</tr>
+
+					<tr>
+						<td>زائرسرا</td>
+						<td>{{dataRow.place_title}}</td>
+					</tr>
+
+
+					{%for key, value in myUsers%}
+						{%if dataRow[key ~ '_id']%}
+						<tr>
+							<td>{{value.title}}</td>
+							<td>
+								<div class="f">
+									<div class="cauto"><img src="{{dataRow[key ~ '_avatar']}}" class="avatar"></div>
+									<div class="c s12 mLa5">{{dataRow[key ~ '_displayname']}}</div>
+									<div class="cauto mRa20 ltr">{{dataRow[key ~ '_mobile'] | fitNumber('mobile')}}</div>
+									<div class="cauto"><a href="{{url.here}}/servant/profile?user={{dataRow[key ~ '_id']}}{{xCityAnd}}" class="">ویرایش پروفایل</a></div>
+								</div>
+							</td>
+						</tr>
+						{%endif%}
+					{%endfor%}
+
+
+
+					<tr>
+						<td>شهر</td>
+						<td>{%set myCity = dataRow.city %}{%trans myCity%}</td>
+					</tr>
+
+
+					<tr>
+						<td>تاریخ شروع</td>
+						<td>{{dataRow.startdate | dt}}</td>
+					</tr>
+
+					<tr>
+						<td>تاریخ پایان</td>
+						<td>{{dataRow.enddate | dt}}</td>
+					</tr>
+
+
+					{%if tempText%}
+					<tr>
+						<td><div class="link" data-copy='#paytext'> <i class="sf-link"></i> پرداخت وجه</div></td>
+						<td><textarea type="text" id="paytext" class="txt" readonly  rows="2">{{tempText}}</textarea></td>
+					</tr>
+					{%endif%}
+
+					{%if dataRow.alertsms%}
+						<tr class="positive">
+							<td class="collapsing">پیامک یادآوری
+								<br>
+								در تاریخ
+								{{dataRow.alertsmsdate | dt()}}
+								<br>
+								ارسال شده است
+							</td>
+							<td><textarea type="text" id="paytext" class="txt" readonly  rows="4">{{dataRow.alertsms}}</textarea></td>
+
+						</tr>
+					{%else%}
+						<tr class="">
+							<td>پیامک یادآوری</td>
+							<td>
+								<textarea type="text" id="paytext" class="txt" readonly  rows="4">{{smsText}}</textarea>
+								<form method="post" autocomplete="off" class="mT10">
+									<div class="input clockpicker" data-placement="top" data-align="left">
+										<label class="addon">ساعت شروع جلسه</label>
+						                <input type="text" name="xtime" id="xtime"  autocomplete="off" value="{{dataRow.startdate | date('H:i')}}">
+										<button class="addon btn success">ارسال پیامک به مبلغ</button>
+						              </div>
+
+								</form>
+							</td>
+
+						</tr>
+					{%endif%}
+
+
+
+
+					{%if dataRow.alertassessment_date%}
+						<tr class="positive">
+							<td colspan="2"  class="collapsing">اطلاع رسانی
+
+								تکمیل ارزشیابی
+
+								در تاریخ
+								{{dataRow.alertassessment_date | dt()}}
+
+								ارسال شده است
+							</td>
+
+
+						</tr>
+					{%else%}
+						<tr class="">
+							<td>اطلاع رسانی تکمیل ارزشیابی</td>
+							<td>
+								<p>
+									با فشردن دکمه پیامکی حاوی لینک ارزشیابی به همه عوامل این سفر ارسال خواهد شد
+								</p>
+								<form method="post" autocomplete="off" class="mT10">
+									<input type="hidden" name="alert" value="alert">
+
+									<button class="addon btn success">اطلاع رسانی تکمیل ارزشیابی</button>
+
+								</form>
+							</td>
+
+						</tr>
+					{%endif%}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+

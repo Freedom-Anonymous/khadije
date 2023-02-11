@@ -1,0 +1,65 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+
+<div class="f justify-center fs12">
+ <div class="c8 m8 s12">
+
+{%if registeredOccasion%}
+  <h4>{%trans "Registered occassion"%}</h4>
+  </p>
+<div class="f">
+  {%for key, value in registeredOccasion%}
+  <div class="c6 s12 pA10">
+    {%if value.accessAsChild%}
+      <a class="dcard grShadow grBlue2 x2 op100" href='{{url.this}}/child?id={{value.id}}'>
+    {%else%}
+      <a class="dcard grShadow grBlue2 x2 op100" href='{{url.this}}/detail?id={{value.id}}'>
+    {%endif%}
+        <div class="mB25 fcWhite900 fs20" >{{value.title}}</div>
+        <div>{{value.subtitle}}</div>
+      </a>
+    </div>
+  {%endfor%}
+</div>
+{%endif%}
+{%if occasionList %}
+{%set haveUnregisteredOccasion = false%}
+  {%for key, value in occasionList%}
+  {%if value.id not in occasionID%}
+    {%set haveUnregisteredOccasion = true%}
+    {%endif%}
+  {%endfor%}
+  {%if haveUnregisteredOccasion%}
+<h4>{%trans "New occassion"%}</h4>
+
+
+<div class="f">
+  {%for key, value in occasionList%}
+  {%if value.id not in occasionID%}
+  <div class="c6 s12 pA10">
+      <a class="dcard grShadow grGreen2 x2 op100" href='{{url.this}}/signup?id={{value.id}}'>
+        <div class="mB25 fcWhite900 fs20" >{{value.title}}</div>
+        <div>{{value.subtitle}}</div>
+      </a>
+    </div>
+    {%endif%}
+  {%endfor%}
+</div>
+{%endif%}
+{%endif%}
+
+{%if not registeredOccasion and not occasionList%}
+<div class="msg info fs14 txtB txtC">{%trans "No support program has been announced by the institute at this time"%}
+  <br>
+  {%trans "Please follow the news of the institute to complete the steps through this page if the distribution of livelihood packages by the institute started on the occasion."%}
+</div>
+{%endif%}
+
+
+ </div>
+</div>
+
+
+{%endblock%}

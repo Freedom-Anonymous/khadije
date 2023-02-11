@@ -1,0 +1,61 @@
+{
+  "list": [
+    {
+      "title": "کفاره روزه",
+      "desc": "روزه عمد و غیر عمد",
+      "slug": "kafarat",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "سایر کفارات",
+      "desc": "نذر و عهد و قسم",
+      "slug": "otherkafarat",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "صدقه",
+      "desc": "دفع بلا",
+      "slug": "sadaqe",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "رد مظالم",
+      "desc": "رد مظالم",
+      "slug": "mazalem",
+      "visible": true,
+      "class": ""
+    }
+  ],
+  "setting": {
+    "kafarat": {
+      "roze_amd": {
+        "price": 300000,
+        "unit": "روز",
+        "title": "کفاره روزه عمد - اطعام شصت فقیر"
+      },
+      "roze_ozr": {
+        "price": 5000,
+        "unit": "روز",
+        "title": "کفاره روزه دارای عذر و غیر عمد - اطعام یک فقیر"
+      },
+      "nazr": {
+        "price": 50000,
+        "unit": "مورد",
+        "title": "کفاره شکستن نذر - اطعام ده فقیر"
+      },
+      "ahd": {
+        "price": 300000,
+        "unit": "مورد",
+        "title": "کفاره شکستن عهد - اطعام شصت فقیر"
+      },
+      "qasam": {
+        "price": 50000,
+        "unit": "مورد",
+        "title": "کفاره شکستن قسم - اطعام ده فقیر"
+      }
+    }
+  }
+}

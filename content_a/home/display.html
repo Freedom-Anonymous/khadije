@@ -1,0 +1,153 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+<div class="f">
+  {%if isAgentServant%}
+    <div class="c12 s12">{{block ("bIsAgetnServant")}}</div>
+  {%endif%}
+
+{%if enableProtection%}
+  <div class="c4 s12">{{block ("bProtectionagent")}}</div>
+ {%endif%}
+
+ {%if festivalEnable%}
+  <div class="c4 s12">{{block ("bFestival")}}</div>
+ {%endif%}
+ <div class="c4 s12">{{block ("addDonate")}}</div>
+ <div class="c4 s6">{{block ("addTrip")}}</div>
+ <div class="c4 s6">{{block ("addTripGroup")}}</div>
+ <div class="c4 s6">{{block ("addService")}}</div>
+ <div class="c4 s6">{{block ("bConsulting")}}</div>
+ <div class="c4 s6">{{block ("bHealth")}}</div>
+ <div class="c4 s6">{{block ("bNiyabat")}}</div>
+</div>
+{%endblock%}
+
+{%block bIsAgetnServant%}
+<a class="dcard x2 fs14" href='{{url.here}}/servant'>
+ <div class="statistic teal">
+  <div class="value"><i class="sf-atom"></i></div>
+  <div class="label">{%trans "Servand dashboard"%}</div>
+  <div class="label pT10">{%trans "Detail, Assessment, ..."%}</div>
+
+ </div>
+</a>
+{%endblock%}
+
+
+{%block bProtectionagent%}
+<a class="dcard fs14" href='{{url.here}}/protection'>
+ <div class="statistic teal">
+  <div class="value"><i class="sf-hand-hold"></i></div>
+  <div class="label pT10">{%trans "Manage protection user"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block bFestival%}
+<a class="dcard fs14" data-direct href='{{url.base}}/festival'>
+ <div class="statistic teal">
+  <div class="value"><i class="sf-magic"></i></div>
+  <div class="label pT10">{{festivalEnable.title}}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block bNiyabat%}
+<a class="dcard" href='{{url.here}}/representation'>
+ <div class="statistic">
+  <div class="value"><i class="sf-coffee"></i></div>
+  <div class="label">{%trans "Representation"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block bHealth%}
+<a class="dcard" href='{{url.here}}/health'>
+ <div class="statistic">
+  <div class="value"><i class="sf-heartbeat"></i></div>
+  <div class="label">{%trans "Health Service"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block bConsulting%}
+<a class="dcard" href='{{url.here}}/consulting'>
+ <div class="statistic">
+  <div class="value"><i class="sf-chat-alt-fill"></i></div>
+  <div class="label">{%trans "Consulting Service"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+{%block prDate%}
+<div class="dcard">
+ <div class="block">
+  <div class="f">
+    <h5 class="c fc-mute">{{"now" | dt('F')}}</h5>
+    <h4 class="cauto fc-info fs30 txtra">{{"now" | dt('d')}}</h4>
+  </div>
+  <div class="f">
+   <div class="progress" data-percent='{{dateDetail.left}}'>
+    <div class="bar"></div>
+   </div>
+  </div>
+ </div>
+</div>
+{%endblock%}
+
+
+{%block addTripGroup%}
+<a class="dcard" href='{{url.here}}/group'>
+ <div class="statistic">
+  <div class="value"><i class="sf-bus"></i></div>
+  <div class="label">ثبت تشرف کاروانی به عتبات عالیات</div>
+ </div>
+</a>
+{%endblock%}
+
+
+{%block addTrip%}
+<a class="dcard" href='{{url.here}}/trip'>
+ <div class="statistic">
+  <div class="value"><i class="sf-pull-request"></i></div>
+  <div class="label">ثبت تشرف انفرادی به عتبات عالیات</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+
+{%block addDonate%}
+<a class="dcard" href='{{url.base}}/donate' data-direct>
+ <div class="statistic">
+  <div class="value"><i class="sf-credit-card"></i></div>
+  <div class="label">{%trans "Donate"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block addService%}
+<a class="dcard" href='{{url.here}}/service'>
+ <div class="statistic">
+  <div class="value"><i class="sf-user-md"></i></div>
+  <div class="label">ثبت درخواست خادمی</div>
+ </div>
+</a>
+{%endblock%}
+
+
+{%block addDonateProduct%}
+<a class="dcard" href='{{url.base}}/donate/product' data-direct>
+ <div class="statistic">
+  <div class="value"><i class="sf-basket"></i></div>
+  <div class="label">{%trans "Donate product"%}</div>
+ </div>
+</a>
+{%endblock%}
+

@@ -1,0 +1,30 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+
+
+{%use "content_a/profile/profileForm.html"%}
+
+<div class="f justify-center">
+	<div class="c5 s12">
+		<form method="post">
+			<div class="cbox">
+				{%block profileForm%}{%endblock%}
+
+				<div class="f">
+					<div class="c6 s12 pRa5">{{block ('iname') }}</div>
+					<div class="c6 s12">{{block ('ifamily') }}</div>
+				</div>
+
+				<button class="btn primary block">{%trans "Save"%}</button>
+
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+{%endblock%}
+

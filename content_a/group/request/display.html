@@ -1,0 +1,70 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+<div class="f justify-center">
+ <div class="cbox c10 s12">
+
+
+{%if signupLocked%}
+<p class="msg warn2 txtC mT20">{%trans "Group signup is disabled"%}</p>
+{%elseif cityplaceList%}
+
+  <form method="post">
+{{block ('iCity') }}
+  </form>
+
+{%else%}
+<p class="msg warn2 txtC mT20">{%trans "All cities are disabled now"%}</p>
+{%endif%}
+
+ </div>
+</div>
+{%endblock%}
+
+
+
+{%block iCity%}
+
+ <div class="f justify-center txtC">
+{% for cityPlace, T_cityPlace in cityplaceList %}
+  <div class="c4 s12 pA10">
+    {%if tripTermsGroup[cityPlace]%}
+      <a class="vcard shadow" href="{{url.this}}/verify?city={{cityPlace}}" >
+    {%else%}
+      <a class="vcard shadow" href="{{url.pwd}}" data-ajaxify data-method="post" data-data='{"city": "{{cityPlace}}"}'>
+    {%endif%}
+     <img src="{{url.static}}/images/place/{{cityPlace}}-square.jpg" alt='{%trans cityPlace%}'>
+     <div class="content">
+      <div class="header">{%trans cityPlace%}</div>
+     </div>
+     <div class="footer">
+      {%if cityPlace == "mashhad"%}ویژه ثبت نام روحانیون مسئول کاروان
+      {%else%}ثبت‌نام آزاد برای عموم
+      {%endif%}
+      </div>
+    </a>
+  </div>
+{% endfor %}
+ </div>
+
+
+{%endblock%}
+
+
+{%block iCity2%}
+<label for="city">{%trans "City Place"%}</label>
+<select name="city" class="input select">
+  <option value="">{%trans "Please select one itmes"%}</option>
+  {%for key, value in cityplaceList%}
+    <option value="{{value.id}}">{{value.city}} - {{value.place}}</option>
+  {%endfor%}
+</select>
+{%endblock%}
+
+
+{%block iNext%}
+<button class="btn primary block mT20">{%trans "Continue"%}</button>
+{%endblock%}
+
+

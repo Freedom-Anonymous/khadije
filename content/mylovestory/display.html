@@ -1,0 +1,71 @@
+{%extends display.main%}
+
+
+{%block pageData%}
+<div>
+	<div class="pTB50">
+		<div class="f">
+			<div class="c4 s12 pRa10">
+		  		<img src="{{url.static}}/images/book/majaraye-eshge-man.jpg" alt='{{page.title}}'>
+			</div>
+			<div class="c8 s12">
+				{%if paymentVerifyMsg %}
+					<div class="msg txtC {%if paymentVerifyMsgTrue %}success{%else%}danger{%endif%}">{{ paymentVerifyMsg}}</div>
+				{%endif%}
+				<div class="msg primary2 fs08">
+					<h2 class="txtB">کتاب این تو  و این ماجرای عشق من اثر  انیسه سادات هاشمی</h2>
+				</div>
+					<div class="txtC">
+						<a class="btn success xl" data-action target="_blank" href="{{url.static}}/pdf/mylovestory.pdf">{%trans "Download book"%}</a>
+					</div>
+{%if false %}
+				<p class="txtB fs12 msg">{%trans "Price"%} {{"3000" | fitNumber}} {%trans "Toman"%}</p>
+				<p class="txtB msg success2">{%trans "You are buy this book before and now you can download book via below link"%}</p>
+				<a class="btn success" data-ajaxify data-data='{"download": 1}' data-method='post'>{%trans "Download book"%}</a>
+				<div class="btn primary lg" data-ajaxify data-data='{"pay": 1}' data-method='post' title='{%trans "Click to buy book"%}'>{%trans "Buy book"%} <span>{{"3000" | fitNumber}} {%trans "Toman"%}</span></div>
+				<a class="btn secondary lg" href="http://samtekhoda.org/518984-این-تو-و-این-ماجرای-عشق-من" target="_blank" rel="external nofollow">{%trans "Buy book"%}</a>
+{%endif%}
+
+			</div>
+		</div>
+		<div class="mT25 msg simple fs08">
+			<h3>خلاصه‌ای از کتاب</h3>
+			<p>خدیجه...</p>
+			<p>خدیجه...</p>
+			<p>کجاست خدیجه...</p>
+			<p>خدیجه کجا و دیگران کجا...</p>
+			<p>دیگر کجا مثل خدیجه پیدا می‌شود.</p>
+			<p>آن روز که همه دروغگویم می‌خواندند، خدیجه با تمام وجود به من ایمان آورد و همه حرفهایم را باور کرد.</p>
+			<p>در راه رسالتم کم نگذاشت.</p>
+			<p>قدم به قدم یاری‌ام کرد و ثروتش را وقف تبلیغ من کرد.</p>
+			<p>تو چه میدانی از خدیجه؟!</p>
+			<p>دیگر کجا مثل خدیجه پیدا می‌شود...</p>
+		</div>
+{%if false%}
+		<div class="mT25 msg">
+			<p class="txtB">برای تهیه نسخه کاغذی کتاب می‌توانید با مراکز زیر تماس حاصل فرمایید</p>
+			<p>قم، بلوار سمیه، خیابان عباس‌آباد، پلاک ۱۱۲
+				<a href="tel:02537740066" class="btn">{{"02537740066" | fitNumber(false)}}</a>
+				<a href="tel:02537832143" class="btn">{{"02537832143" | fitNumber(false)}}</a>
+				<a href="tel:09126514329" class="btn">{{"09126514329" | fitNumber(false)}}</a>
+				<a href="tel:09122534967" class="btn">{{"09122534967" | fitNumber(false)}}</a>
+			</p>
+			<p></p>
+		</div>
+	</div>
+{%endif%}
+</div>
+
+<hr>
+<h3 class="txtC">جهت شرکت در مسابقه ماه رمضان از طریق فرم زیر اقدام فرمایید</h3>
+<iframe class="mB25" src="https://sarshomar.com/fa/s/3L2d6/ex" height="650" width="100%" frameborder="0" allowfullscreen></iframe>
+
+
+
+{%endblock%}
+
+
+
+
+
+

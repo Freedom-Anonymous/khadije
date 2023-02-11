@@ -1,0 +1,129 @@
+{
+  "list": [
+    {
+      "title": "فطریه",
+      "desc": "برای ماه مبارک رمضان",
+      "slug": "fetriye",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "کفاره روزه",
+      "desc": "روزه عمد و غیر عمد",
+      "slug": "kafarat",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "سایر کفارات",
+      "desc": "نذر و عهد و قسم",
+      "slug": "otherkafarat",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "صدقه",
+      "desc": "دفع بلا",
+      "slug": "sadaqe",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "رد مظالم",
+      "desc": "رد مظالم",
+      "slug": "mazalem",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "نماز و روزه",
+      "desc": "نماز و ورزه قضا",
+      "slug": "namazqaza",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "نماز قضا",
+      "desc": "",
+      "slug": "namazqaza",
+      "visible": false,
+      "class": ""
+    },
+    {
+      "title": "روزه قضا",
+      "desc": "",
+      "slug": "rozeqaza",
+      "visible": false,
+      "class": ""
+    },
+    {
+      "title": "رد مظالم",
+      "desc": "رد مظالم",
+      "slug": "mazalem",
+      "visible": true,
+      "class": ""
+    },
+    {
+      "title": "نماز و روزه",
+      "desc": "نماز و ورزه قضا",
+      "slug": "namazqaza",
+      "visible": true,
+      "class": ""
+    }
+  ],
+  "setting": {
+    "fetriye": {
+      "berenjkhareji": {
+        "title": "برنج خارجی",
+        "price": 30000
+      },
+      "berenj": {
+        "title": "برنج ایرانی",
+        "price": 60000
+      },
+      "gandom": {
+        "title": "گندم",
+        "price": 10000
+      }
+    },
+    "kafarat": {
+      "roze_amd": {
+        "price": 180000,
+        "unit": "روز",
+        "title": "کفاره روزه عمد - اطعام شصت فقیر"
+      },
+      "roze_ozr": {
+        "price": 2500,
+        "unit": "روز",
+        "title": "کفاره روزه دارای عذر و غیر عمد - اطعام یک فقیر"
+      },
+      "nazr": {
+        "price": 30000,
+        "unit": "مورد",
+        "title": "کفاره شکستن نذر - اطعام ده فقیر"
+      },
+      "ahd": {
+        "price": 180000,
+        "unit": "مورد",
+        "title": "کفاره شکستن عهد - اطعام شصت فقیر"
+      },
+      "qasam": {
+        "price": 30000,
+        "unit": "مورد",
+        "title": "کفاره شکستن قسم - اطعام ده فقیر"
+      }
+    },
+    "namazqaza": {
+      "namazqaza": {
+        "price": 2200000,
+        "unit": "سال",
+        "title": "نماز قضا"
+      },
+      "rozeqaza": {
+        "price": 1300000,
+        "unit": "ماه",
+        "title": "روزه قضا"
+      }
+    }
+  }
+}

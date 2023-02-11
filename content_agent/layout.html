@@ -1,0 +1,19 @@
+{%extends display.dash%}
+
+{%block sidenav%}
+{%if not oneCity%}
+  <li><a href="{{url.here}}">{%trans "Select city"%}</a></li>
+{%endif%}
+  {%if xCity%}
+  <li class="txtB"><a href="{{url.here}}{{xCityStart}}">{%trans "Dashboard"%} {%trans "City"%} {{xCityTitle}}</a></li>
+
+  <li><a href="{{url.here}}/servant{{xCityStart}}">{% trans "Servants" %}</a></li>
+  <li><a href="{{url.here}}/servant/sortlist{{xCityStart}}">نوبت اعزام</a></li>
+  <li><a href="{{url.here}}/send{{xCityStart}}">تاریخچه اعزام</a></li>
+  <li class="hr"></li>
+  <li><a href="{{url.here}}/assessmentitem{{xCityStart}}">{% trans "Assessment Item" %}</a></li>
+  <li><a href="{{url.here}}/skills{{xCityStart}}">{% trans "Skills" %}</a></li>
+  <li><a href="{{url.here}}/place{{xCityStart}}">{% trans "Agent Place" %}</a></li>
+  {%endif%}
+
+{%endblock%}

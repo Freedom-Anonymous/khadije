@@ -1,0 +1,689 @@
+{%extends 'content_mokeb/layout.html'%}
+
+
+
+
+{%block pageContent%}
+
+<style>
+@media print {
+  .tbox{display:none;}
+  .siftal #main #content{padding: 0}
+  .c8.s12.pLa10{padding:0!important}
+  .printA6 .printFitArea {max-width: 8cm; margin: 0 auto;padding-top: 4cm;}
+}
+
+body .printA6 div{color:#000!important;}
+.printA6 .logo{display:block;margin:0; max-height: 75px;}
+.printA6 h3{font-weight: 900;font-size: 1em;margin-bottom: 0}
+.printA6 .placeNumber{font-size: 28px;line-height: 28px;}
+
+.dots{font-size: 1.3em;padding: 10px 10px 0}
+.dots a{display: inline-block;width:26px;height:26px;line-height:26px;text-align:center;font-weight: 100;border-radius:50%; margin-bottom: 5px;overflow: hidden;border:1px solid transparent;}
+.panel{overflow: initial;}
+
+</style>
+
+
+
+<div class="f justify-center fs14 mB10 p0">
+  <div class="c5">
+      <form method="get" action="{{url.that}}" autocomplete="off">
+        <div class="input">
+          <button class="addon btn light fs08">{%trans "Check"%}</button>
+          <input type="tel" name="cnationalcode" class="barCode" data-default data-pass="submit" value="{{requestGET.cnationalcode}}" placeholder='کد ملی {{mokebuserDetail.nationalcode}}' maxlength="10"  minlength="1" {%if not checkNationalcode or checkNationalcode == 'invalid'%}autofocus {%endif%}>
+        </div>
+      </form>
+  </div>
+
+{%if requestGET.cnationalcode or mokebuserDetail.nationalcode or requestGET.position%}
+  <div class="c pLa10">
+    <a href="{{url.that}}" class="addon btn secondary block"><i class="sf-eraser pRa5"></i><span>خالی کن</span></a>
+  </div>
+{%endif%}
+
+{%if checkNationalcode == 'expire' or checkNationalcode == 'signuped'%}
+  <div class="cauto pLa10">
+    <div data-kerkere='.showEditProfile' data-kerkere-icon class="btn">ویرایش اطلاعات</div>
+  </div>
+{%endif%}
+
+    {%if checkNationalcode == 'signuped' and not mokebuserDetail.noposition%}
+      <div class="cauto pLa10">
+        <div class="btn danger outline" data-confirm data-data='{"forceexit": true}'>ثبت خروج  قبل از موعد</div>
+      </div>
+    {%endif%}
+
+
+
+</div>
+
+<div class="f justify-center">
+
+{%if fullFreeName%}
+  <div class="c5 s12">
+    {%if fullFreeName%}
+    <div class="cbox mB10 {%if requestGET.cnationalcode or mokebuserDetail.nationalcode or requestGET.position%}p0{%endif%}">
+        <div >
+          {%set nextDot = null%}
+          {%for key, value in fullFreeName%}
+          {%if value.detail%}
+            {%set myDetailName = value.detail.firstname ~ ' ' ~ value.detail.lastname%}
+          {%else%}
+            {%set myDetailName = null%}
+          {%endif%}
+          {%if value.type == 'free'%}
+    {%if nextDot is null%}
+    {%set nextDot = value.number%}
+            <a href="{{url.that}}?position={{value.number}}" class="msg block pTB0 mB5 {%if requestGET.position == value.number%}danger{%else%}primary outline{%endif%}" title="جایگاه  {{value.number | fitNumber}} - شماره بعدی {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+    {%else%}
+            <a href="{{url.that}}?position={{value.number}}" class="msg block pTB0 mB5 {%if requestGET.position == value.number%}danger{%else%}light{%endif%}" title="جایگاه  {{value.number | fitNumber}} - خالی {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+    {%endif%}
+          {%else%}
+            <a href="{{url.that}}?position={{value.number}}" class="msg block pTB0 mB5 {%if requestGET.position == value.number%}danger{%else%}success{%endif%}" title="جایگاه  {{value.number | fitNumber}} - پر {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+          {%endif%}
+          {%endfor%}
+        </div>
+    </div>
+    {%else%}
+    <p class="msg danger fs30">جایگاه تعریف نشده است!</p>
+    {%endif%}
+  </div>
+
+
+  {%elseif fullFree%}
+   <div class="c5 s12">
+    {%if fullFree%}
+    <div class="panel mB10 {%if requestGET.cnationalcode or mokebuserDetail.nationalcode or requestGET.position%}p0{%endif%}">
+        <div class="dots">
+          {%set nextDot = null%}
+          {%for key, value in fullFree%}
+          {%if value.detail%}
+            {%set myDetailName = value.detail.firstname ~ ' ' ~ value.detail.lastname%}
+          {%else%}
+            {%set myDetailName = null%}
+          {%endif%}
+          {%if value.type == 'free'%}
+    {%if nextDot is null%}
+    {%set nextDot = value.number%}
+            <a href="{{url.that}}?position={{value.number}}" class="{%if requestGET.position == value.number%}danger{%else%}primary outline{%endif%}" title="جایگاه  {{value.number | fitNumber}} - شماره بعدی {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+    {%else%}
+            <a href="{{url.that}}?position={{value.number}}" class="{%if requestGET.position == value.number%}danger{%else%}light{%endif%}" title="جایگاه  {{value.number | fitNumber}} - خالی {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+    {%endif%}
+          {%else%}
+            <a href="{{url.that}}?position={{value.number}}" class="{%if requestGET.position == value.number%}danger{%else%}success{%endif%}" title="جایگاه  {{value.number | fitNumber}} - پر - {{myDetailName}}">{{value.number}} {%if value.detail%}{{myDetailName}}{%endif%}</a>
+          {%endif%}
+          {%endfor%}
+        </div>
+    </div>
+    {%else%}
+    <p class="msg danger fs30">جایگاه تعریف نشده است!</p>
+    {%endif%}
+  </div>
+  {%endif%}
+
+
+  {%if checkNationalcode%}
+  <div class="c s12 pLa10 fs14 ">
+    <div class="mB10 p0">
+      {%if checkNationalcode == 'invalid'%}
+        <div class="msg pTB3 mB0-f danger txtC txtB">کد ملی اشتباه است</div>
+      {%elseif checkNationalcode == 'expire'%}
+        <div class="msg pTB3 mB0-f danger txtC txtB">منقضی شده</div>
+
+      {%elseif checkNationalcode == 'signuped'%}
+        <div class="msg pTB3 mB0-f success txtC txtB">ثبت شده و مجاز به ورود</div>
+      {%elseif checkNationalcode == 'not-signuped'%}
+        <div class="msg pTB3 mB0-f info txtC txtB mB20">پذیرش جدید  {%if requestGET.position%}در جایگاه  <b>{{requestGET.position | fitNumber}}</b>{%endif%}</div>
+      {%endif%}
+    </div>
+
+
+{%if checkNationalcode == 'signuped' or checkNationalcode == 'expire' or checkNationalcode == 'noposition' %}
+    <div class="showEditProfile mB10 p0" data-kerkere-content='hide'>
+        <div class="panel">
+          <div class="pad p0">
+              {{block('newSignupUpdate')}}
+          </div>
+        </div>
+    </div>
+    {{block('a6_chap_detail')}}
+
+{%if checkNationalcode == 'expire'%}
+   {{block('newSignupExpire')}}
+{%endif%}
+
+{%endif%}
+
+{%if checkNationalcode == 'not-signuped'%}
+    <div class="panel p0">
+      <div class="pad">
+          {{block('newSignup')}}
+      </div>
+    </div>
+{%endif%}
+  </div>
+  {%endif%}
+
+
+</div>
+
+{%endblock%}
+
+
+{%block foot_js%}
+<script src="{{url.static}}/js/barcode.all.min.js"></script>
+
+{%endblock%}
+
+
+
+{%block newSignupExpire%}
+<div class="f justify-center">
+<div class="btn warn" data-kerkere=".showExpireSignup">پذیرش مجدد</div>
+</div>
+<div class="showExpireSignup" data-kerkere-content='hide'>
+    <div class="panel p0">
+    <div class="pad">
+        {{block('newSignup')}}
+
+    </div>
+  </div>
+
+</div>
+{%endblock%}
+
+
+
+{%block a6_chap_detail%}
+
+<div class="printA6">
+  <div class="printArea pA15" data-size='A6' data-height='auto'>
+    <div class="printFitArea">
+      {%if mokebuserDetail.noposition%}
+      <div class="msg mB5 pTB2 success txtC txtB">بدون جایگاه</div>
+      {%endif%}
+      {%if checkNationalcode == 'expire'%}
+      <div class="msg mB5 pTB2 warn txtC txtB">منقضی شده</div>
+      {%endif%}
+
+      <div class="f msg mB5 pTB2">
+        <div class="c">
+          {%if mokebuserDetail.gender == 'male'%}آقای {%elseif mokebuserDetail.gender == 'female'%}خانم{%endif%}
+
+          {%if mokebuserDetail.firstname or mokebuserDetail.lastname%}
+            {{mokebuserDetail.firstname}} <b>{{mokebuserDetail.lastname}}</b>
+          {%else%}
+          <small class="fc-mute">بدون نام</small>
+          {%endif%}
+        </div>
+        <div class="cauto txtRa">
+          {%if mokebuserDetail.position%}
+          <div class="placeNumber"><small class="fs05">#</small><b>{{mokebuserDetail.position}}</b></div>
+          {%elseif mokebuserDetail.oldposition%}
+          <div class="placeNumber"><small class="fs05 fc-mute">#</small><b class="fc-mute">{{mokebuserDetail.oldposition}}</b></div>
+          {%endif%}
+        </div>
+      </div>
+
+      <div class="msg mB5 pTB2{%if checkNationalcode == 'expire'%} danger2 {%endif%} fs08">
+        <div>تاریخ پذیرش  در موکب<span class="floatL ltr">{{mokebuserDetail.datecreated | dt}}</span></div>
+        <div>اتمام زمان پذیرش <span class="floatL ltr">{{mokebuserDetail.expire | dt}}</span></div>
+      </div>
+
+      <div class="msg mB5 pTB2{%if checkNationalcode == 'expire'%} danger2 {%endif%} fs08">
+
+        {%if mokebDetail.address%}<div class="fs09">موکب {{mokebDetail.title}} به آدرس <b>{{mokebDetail.address}}</b></div>{%endif%}
+        {%if mokebDetail.desc%}<div class="mT5 fs08">{{mokebDetail.desc}}</div>{%endif%}
+      </div>
+
+      <div class="txtC">
+          <svg id="barcode" data-val='{{mokebuserDetail.nationalcode}}'></svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{%endblock%}
+
+
+
+
+
+
+{%block newSignup%}
+
+
+    <form class="" method="post" autocomplete="off">
+
+<div class="f">
+  <div class="c">
+    {{block ('iMobileKarabala') }}
+  </div>
+{%if not requestGET.cnationalcode%}
+  <div class="c6 pLa5">
+    {{block('incode')}}
+  </div>
+{%endif%}
+</div>
+
+
+<div class="f">
+  <div class="c6">
+    {{block ('iname') }}
+  </div>
+  <div class="c6 pLa5">
+    {{block ('ifamily') }}
+  </div>
+</div>
+{{block ('icity') }}
+
+<div class="f">
+  <div class="c6 ">
+    {{block ('iMarital') }}
+  </div>
+  <div class="c6 pLa5">
+    {{block ('igender') }}
+  </div>
+</div>
+
+<div class="f">
+  <div class="c6 s12">
+
+      <label for="activetime">{%trans "Active time"%} </label>
+      <select name="activetime" class="ui dropdown select">
+        <option value="" readonly>{%trans "Please select one itme"%}</option>
+        <option value="12" {%if mokebDetail.activetime == '12' %}selected {%endif%}>{{12 | fitNumber}} {%trans "Hour"%} - نصف روز</option>
+        <option value="24" {%if mokebDetail.activetime == '24' %}selected {%endif%}>{{24 | fitNumber}} {%trans "Hour"%} - یک روز</option>
+        <option value="48" {%if mokebDetail.activetime == '48' %}selected {%endif%}>{{48 | fitNumber}} {%trans "Hour"%} - دو روز</option>
+        <option value="72" {%if mokebDetail.activetime == '72' %}selected {%endif%}>{{72 | fitNumber}} {%trans "Hour"%} - سه روز</option>
+        <option value="96" {%if mokebDetail.activetime == '96' %}selected {%endif%}>{{96 | fitNumber}} {%trans "Hour"%} - چهار روز</option>
+      </select>
+
+  </div>
+  <div class="c6 s12">
+    <div class="mLa5">
+      {{block('idateCreated')}}
+    </div>
+  </div>
+</div>
+
+      <div class="msg pTB0 mB10">
+        <div class="check1">
+         <input type="checkbox" name="noposition" id="noposition" >
+         <label for="noposition">ثبت به عنوان همراه، کودک یا اقامت در حیاط موکب - بدون نیاز به رزرو موقعیت</label>
+        </div>
+      </div>
+
+     <div class="msg hide f txtB">
+       <div class="c">جایگاه پذیرش</div>
+       <div class="c">{{freePosition[0] | fitNumber(false)}}</div>
+     </div>
+
+
+
+    {%if requestGET.isduplicate and mokebuserDetail or checkNationalcode == 'expire'%}
+    <div class="c12">
+      <div class="pA10 msg warn txtC txtB">این شخص قبلا در سامانه ثبت‌نام کرده است. در صورتی که می‌خواهید ایشان را مجددا پذیرش کنید کلیک کنید
+
+      </div>
+
+    </div>
+
+    {%if checkNationalcode == 'expire'%}
+      <input type="hidden" name="forcesignup" value="1">
+    {%endif%}
+
+    <div class="f">
+       <div class="c"><button class="btn success block" >پذیرش مجدد</button></div>
+       <div class="cauto"><a href="{{url.that}}" class="btn mLa5">انصراف</a></div>
+     </div>
+
+    {%else%}
+     <div class="f">
+       <div class="c">{{block ('iSave') }}</div>
+       <div class="cauto"><a href="{{url.that}}" class="btn mLa5">انصراف</a></div>
+     </div>
+    {%endif%}
+
+
+    </form>
+{%endblock%}
+
+
+
+
+{%block newSignupUpdate%}
+
+    <form class="" method="post" autocomplete="off">
+      <input type="hidden" name="updateuser" value="1">
+      <input type="hidden" name="id" value="{{mokebuserDetail.id}}">
+      {%if requestGET.position%}
+        <div class="msg txtB txtC primary2">
+          جایگاه <b>{{requestGET.position | fitNumber}}</b>
+        </div>
+      {%endif%}
+{{block ('iMobileKarabala') }}
+
+
+<div class="f">
+  <div class="c6 pRa10">
+    {{block ('iname') }}
+  </div>
+  <div class="c6">
+    {{block ('ifamily') }}
+  </div>
+</div>
+
+{{block ('icity') }}
+
+<div class="f">
+  <div class="c6 pRa10">
+    {{block ('iMarital') }}
+  </div>
+  <div class="c6">
+    {{block ('igender') }}
+  </div>
+</div>
+
+
+<button class="btn mT10">به روزرسانی</button>
+
+    </form>
+{%endblock%}
+
+
+
+{%block iname%}
+<label for="name">{%trans "Name"%} <small class="fc-red">* الزامی</small></label>
+<div class="input">
+  <input type="text" name="name" id="name" value="{{mokebuserDetail.firstname}}" maxlength='40' minlength="2" autocomplete="new-password" >
+</div>
+{%endblock%}
+
+
+{%block ifamily%}
+<label for="lastName">{%trans "Last name"%} <small class="fc-red">* الزامی</small></label>
+<div class="input">
+  <input type="text" name="lastName" id="lastName" value="{{mokebuserDetail.lastname}}" maxlength='40' minlength="2" autocomplete="new-password" >
+</div>
+{%endblock%}
+
+
+{%block ifather%}
+<label for="father">{%trans "Father name"%}  </label>
+<div class="input">
+  <input type="text" name="father" id="father" placeholder='{%trans "Father name"%}' value="{{mokebuserDetail.father}}" maxlength='50' >
+</div>
+{%endblock%}
+
+
+{%block imobile%}
+<label for="mobile" class="disabled">{%trans "Mobile"%}</label>
+<div class="input disabled">
+  <input type="text" readonly disabled id="mobile" placeholder='{%trans "Like 09120123456"%}' value="{{mokebuserDetail.mobile}}" maxlength='30' >
+</div>
+{%endblock%}
+
+
+{%block incode%}
+<label for="nationalcode">{%trans "National code"%} <small class="fc-red">* الزامی</small></label>
+<div class="input">
+  <input type="tel" name="nationalcode" id="nationalcode" value="{{mokebuserDetail.nationalcode}}" min='1' max='9999999999' required >
+</div>
+{%endblock%}
+
+
+{%block ibirthday%}
+<label for="birthday">{%trans "Birthday"%}  </label>
+<div class="input ltr">
+  <input class="datepicker" type="text" name="birthday" id="birthday"  placeholder='{{"1369/04/15" | fitNumber}}' value="{{mokebuserDetail.birthday}}" maxlength='20' data-format="YYYY/MM/DD"data-view="year">
+</div>
+{%endblock%}
+
+
+{%block idateCreated%}
+<label for="datecreated">{%trans "datecreated"%}  </label>
+<div class="input ltr">
+  <input class="datepicker" type="text" name="datecreated" id="datecreated"  placeholder='{{"now" | date | dt}}' value="{{mokebuserDetail.datecreated}}" maxlength='20' data-format="YYYY/MM/DD"data-view="day">
+</div>
+{%endblock%}
+
+
+
+
+
+
+{%block igender%}
+<div class="">
+  <label for="gender">{%trans "Gender"%} </label>
+  <select name="gender" class="ui dropdown select">
+    <option value="" readonly>{%trans "Please select one itme"%}</option>
+    <option value="male" {%if mokebuserDetail.gender == 'male' or ( not mokebuserDetail.gender and mokebDetail.gender == 'male') %}selected {%endif%}>{%trans "Male"%}</option>
+    <option value="female" {%if mokebuserDetail.gender == 'female' or ( not mokebuserDetail.gender and mokebDetail.gender == 'female') %}selected{%endif%}>{%trans "Female"%}</option>
+  </select>
+</div>
+{%endblock%}
+
+
+{%block iMarital%}
+<div class="">
+  <label for="married">{%trans "Marital"%} </label>
+  <select name="Married" class="ui dropdown select">
+    <option value="" readonly>مجرد یا متاهل</option>
+    <option value="single" {%if mokebuserDetail.married == 'single' %}selected {%endif%}>{%trans "Single"%}</option>
+    <option value="married" {%if mokebuserDetail.married == 'married' %}selected{%endif%}>{%trans "Married"%}</option>
+  </select>
+</div>
+{%endblock%}
+
+
+
+
+
+{%block iArabicLang%}
+<div class="switch1 pA5">
+ <input type="checkbox" name="ArabicLang" id="ArabicLang" {%if mokebuserDetail.arabiclang == 'yes' %}checked{%endif%}>
+ <label for="ArabicLang"  data-on='{%trans "Yes"%}' data-off='{%trans "No"%}'></label>
+ <label for="ArabicLang">{%trans "Arabic Language"%}</label>
+</div>
+
+{%endblock%}
+
+
+
+
+
+{%block iprovince%}
+<label for='province'>{%trans "Province"%}</label>
+<select name="province" class="ui dropdown select search" id="province">
+  <option value="" readonly>{%trans "Select province"%}</option>
+  {%for key, value in proviceList%}
+    <option value="{{key}}" {% if mokebuserDetail.province == key %} selected {%endif%}>{{value}}</option>
+  {%endfor%}
+</select>
+{%endblock%}
+
+
+{%block icity%}
+<label for='city'>{%trans "City"%} {%if nationalCity%}<span class="fc-green">صادره از  <b>{{nationalCity}}</b></span>{%endif%}</label>
+<select name="city" class="ui dropdown select search" id="city" autocomplete="new-password">
+  <option value="" readonly></option>
+  {%for key, value in cityList%}
+    <option value="{{key}}" {% if mokebuserDetail.city == key %} selected {%endif%}>{{value}}</option>
+  {%endfor%}
+</select>
+{%endblock%}
+
+
+
+
+{%block izipcode%}
+<label for='zipcode'>{%trans "Zip code"%}</label>
+<div class="input">
+ <input type='tel' name='zipcode' id='zipcode' min="0" max="9999999999" value="{{mokebuserDetail.zipcode}}"/>
+</div>
+{%endblock%}
+
+
+
+
+{%block ipassport%}
+<label for='passport'>{%trans "Passport id"%} </label>
+<div class="input ltr">
+ <input type="text" name='passport' id='passport' value="{{mokebuserDetail.pasportcode}}" />
+</div>
+{%endblock%}
+
+
+{%block ipassportexpire%}
+<label for='passportexpire'>{%trans "Passport expire date"%}</label>
+<div class="input">
+  <input class="datepicker" type="text" name="passportexpire" id="passportexpire" placeholder='{{"1397/03/30" | fitNumber}}' value="{{mokebuserDetail.pasportdate}}" maxlength='20' data-format="YYYY/MM/DD" data-view="year">
+</div>
+{%endblock%}
+
+
+
+{%block iAddress%}
+<label for='fhomeaddress'>{%trans "Address"%}  </label>
+<textarea name="homeaddress" rows="2" placeholder='{%trans "Address"%}' class="txt" id="fhomeaddress">{{mokebuserDetail.homeaddress}}</textarea>
+{%endblock%}
+
+{%block iWorkAddress%}
+<label for='fworkaddress'>{%trans "Work Address"%}</label>
+<textarea name="workaddress" rows="3" placeholder='{%trans "Work Address"%}' class="txt" id="fworkaddress">{{mokebuserDetail.workaddress}}</textarea>
+{%endblock%}
+
+
+
+{%block iDescription%}
+<label for='fdesc'>{%trans "Description"%}</label>
+<textarea name="desc" rows="3" placeholder='{%trans "Description"%}' class="txt" id="fdesc">{{mokebuserDetail.desc}}</textarea>
+{%endblock%}
+
+
+
+{%block iMobileKarabala%}
+<label for="mobile">{%trans "Mobile"%} <small class="fc-red">* الزامی</small></label>
+<div class="input ltr">
+  <input type="tel" name="mobile" id="mobile" value="{{mokebuserDetail.mobile}}" maxlength='50' autofocus autocomplete="new-password">
+</div>
+{%endblock%}
+
+{%block iPhone%}
+<label for="phone">{%trans "Phone"%}  </label>
+<div class="input ltr">
+  <input type="tel" name="phone" id="phone" value="{{mokebuserDetail.phone}}" maxlength='50' >
+</div>
+{%endblock%}
+
+
+
+{%block iEmail%}
+<label for="email">{%trans "Email"%}</label>
+<div class="input">
+  <input type="email" name="email" id="email" placeholder='{%trans "Like"%} abc@example.com' value="{{mokebuserDetail.email}}" maxlength='50'>
+</div>
+{%endblock%}
+
+
+{%block iAvatar%}
+<div class="input preview">
+ <input type="file" accept="image/gif, image/jpeg, image/png" name="avatar" id="avatar1" data-preview data-max="500">
+ <label for="avatar1" title2="Simple Title">
+    {%if mokebuserDetail.avatar%}<img src="{{mokebuserDetail.avatar}}">{%endif%}
+ </label>
+</div>
+{%endblock%}
+
+
+{%block iNationalthumb%}
+<div class="input preview">
+ <input type="file" accept="image/gif, image/jpeg, image/png" name="nationalthumb" id="nationalthumb" data-preview data-max="500">
+ <label for="nationalthumb" title2="Simple Title">
+    {%if mokebuserDetail.nationalthumb%}<img src="{{mokebuserDetail.nationalthumb}}">{%endif%}
+ </label>
+</div>
+{%endblock%}
+
+
+{%block iShthumb%}
+<div class="input preview">
+ <input type="file" accept="image/gif, image/jpeg, image/png" name="shthumb" id="shthumb" data-preview data-max="500">
+ <label for="shthumb" title2="Simple Title">
+    {%if mokebuserDetail.shthumb%}<img src="{{mokebuserDetail.shthumb}}">{%endif%}
+ </label>
+</div>
+{%endblock%}
+
+
+
+{%block iEducation%}
+<label for="feducation">{%trans "Education"%}</label>
+<div class="input">
+  <input type="text" name="education" id="feducation" placeholder='{%trans "Education"%}' value="{{mokebuserDetail.education}}" maxlength='50'>
+</div>
+{%endblock%}
+
+
+
+{%block iEducationCourse%}
+<label for="feducationcourse">{%trans "Education course"%}</label>
+<div class="input">
+  <input type="text" name="educationcourse" id="feducationcourse" placeholder='{%trans "Education course"%}' value="{{mokebuserDetail.education}}" maxlength='50'>
+</div>
+{%endblock%}
+
+
+
+{%block iJob%}
+<label for="fjob">{%trans "Job"%}</label>
+<div class="input">
+  <input type="text" name="job" id="fjob" placeholder='{%trans "Job"%}' value="{{mokebuserDetail.job}}" maxlength='50'>
+</div>
+{%endblock%}
+
+
+{%block iJobIsStudent%}
+<div class="switch1 ">
+ <input type="checkbox" name="student" id="student" {%if mokebuserDetail.job == 'student' %}checked{%endif%}>
+ <label for="student"  data-on='{%trans "Yes"%}' data-off='{%trans "No"%}'></label>
+ <label for="student">{%trans "Are you an univercity student?"%}</label>
+</div>
+{%endblock%}
+
+
+
+
+{%block iadd%}
+<button class="btn primary block">{%trans "Add"%}</button>
+{%endblock%}
+
+{%block iSave%}
+<button class="btn primary block">{%trans "Signup"%}</button>
+{%endblock%}
+
+
+
+
+
+{%block icountry%}
+<div class="mB10">
+  <label for='country'>{%trans "Country"%}</label>
+  <div class="ui fluid search selection dropdown">
+    <input type="hidden" name="country" value="{{mokebuserDetail.country}}">
+    <i class="dropdown icon"></i>
+    <div class="default text">{%trans "Choose your country"%}</div>
+    <div class="menu">
+{%for key, value in countryList%}
+      <div class="item" data-value="{{key}}">
+        <i class="{{value.iso2 | lower }} flag"></i>{%set myCountry = value.name%} {%trans myCountry%}
+        <small class="description">{{value.name | capitalize}}</small>
+      </div>
+{%endfor%}
+    </div>
+  </div>
+</div>
+{%endblock%}

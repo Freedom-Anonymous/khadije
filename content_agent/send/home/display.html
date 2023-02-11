@@ -1,0 +1,132 @@
+{%extends display.admin%}
+
+
+
+{%block pageContent%}
+
+
+{%if dataTable%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+  {{block('htmlFilter')}}
+
+ {%else%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+
+ {%endif%}
+{%else%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlFilterNoResult')}}
+
+ {%else%}
+
+  {{block('htmlStartAddNew')}}
+
+ {%endif%}
+{%endif%}
+
+{%endblock%}
+
+
+
+
+{%block htmlSearchBox%}
+<div class="cbox fs12">
+  <form method="get" action='{{url.this}}'>
+    <input type="hidden" name="city" value="{{requestGET.city}}">
+    <div class="input">
+      <input type="search" name="q" placeholder='{%trans "Search"%}' id="q" value="{{requestGET.q}}" autofocus  data-pass='submit' autocomplete='off'>
+      <button class="addon btn ">{%trans "Search" %}</button>
+    </div>
+  </form>
+</div>
+{%endblock%}
+
+
+{%block htmlTable%}
+
+<div class="tblBox">
+
+  <table class="tbl1 v4 cbox fs12">
+    <thead>
+      <tr>
+        <th>زائرسرا</th>
+
+
+        <th class="collapsing" data-sort="{{sortLink.missionary_id.order}}"><a href='{{sortLink.missionary_id.link}}'>مبلغ</a></th>
+        <th class="collapsing" data-sort="{{sortLink.admin_id.order}}"><a href='{{sortLink.admin_id.link}}'>مدیر کاروان</a></th>
+
+
+
+        <th class="collapsing">{%trans "Date"%}</th>
+        <th class="collapsing">{%trans "Title"%}</th>
+
+        <th class="collapsing">{%trans "Status"%}</th>
+        <th class="collapsing">{%trans "Detail"%}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {%for key, value in dataTable%}
+      <tr class='positive'>
+        <td>{{value.place_title}}</td>
+
+
+         <td class="collapsing">
+          <img src="{{value.missionary_avatar}}" class="avatar">
+          <b>{{value.missionary_displayname}}<b>
+          <span class="badge light">{{value.missionary_mobile | fitNumber(false)}}</span>
+        </td>
+
+         <td class="collapsing">
+          <img src="{{value.admin_avatar}}" class="avatar">
+          <b>{{value.admin_displayname}}<b>
+          <span class="badge light">{{value.admin_mobile | fitNumber(false)}}</span>
+        </td>
+
+
+
+
+
+        <td >{{value.startdate | dt(null, 'date')}}<br>{{value.enddate | dt(null, 'date')}}</td>
+        <td class="collapsing">{{value.title}}</td>
+        <td class="collapsing">{%set myStatus = value.status | capitalize%}{%trans myStatus%}</td>
+        <td class="collapsing">
+          <a class="btn {%if value.status == 'lock'%} {%else%} info{%endif%}" href="{{url.this}}/view?id={{value.id}}{{xCityAnd}}">{%trans "Detail"%}</a>
+        </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  {%include display.pagination%}
+
+</div>
+{%endblock%}
+
+
+{%block htmlFilter%}
+<p class="f fs14 msg info2">
+  <span class="c">{{dataFilter | raw}}</span>
+  <a class="cauto" href="{{url.this}}{{xCityStart}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlFilterNoResult%}
+<p class="f fs14 msg warn2">
+  <span class="c">{%trans "Result not found!"%} {%trans "Search with new keywords."%}</span>
+  <a class="cauto" href="{{url.this}}{{xCityStart}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlStartAddNew%}
+<p class="fs14 msg success2 pTB20">{%trans "Hi!"%} <a href="{{url.here}}/servant/sortlist{{xCityStart}}">{%trans "Try to start with add new servant!"%}</a></p>
+{%endblock%}
+

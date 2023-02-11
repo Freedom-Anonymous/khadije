@@ -1,0 +1,112 @@
+{%extends display.main%}
+
+
+
+
+{%block pageData%}
+
+<p class="msg txtC simple">
+سمت خدایی عزیز<br/>
+امیدواریم که فیض الهی نصیب شما شده و شما نیز زائر حضرت سیدالشهداء علیه السلام باشید<br/>
+لذا ضمن تبریک لطفا نکات ذیل را مطالعه بفرمایید
+</p>
+
+<p class="msg txtC danger2">در مرحله اول کدملی شما به اداره گذرنامه ارسال میشود و در صورتی که تاکنون سفر عراق نداشته باشید در خدمتتان خواهیم بود.</p>
+
+<p class="msg txtC danger2">همانطور که می‌دانید اعزام زیارت اولی‌ها از محل نذورات خیرین و برای افرادیست که شرایط مالی برای انجام این سفر را ندارند، لذا درصورتی که هر کدام از منتخبین شرایط مالی مساعدی برای این سفر داشته باشند در جهت تحقق نیت بانیان، می‌توانند نوبت خود را به فردی که تاکنون کربلا نرفته واگذار نمایند و یا با پرداخت هفتاد درصد هزینه سفر، خودشان زائر شوند.</p>
+
+<p class="msg txtC danger2">اعزام زائرین عزیز در سال ۱۳۹۸ صورت خواهد گرفت و برای این منظور همکاران ما با شما تماس خواهند گرفت، لذا در این خصوص نیازی به پیگیری منتخبین عزیز نیست.</p>
+
+
+
+
+
+
+
+{%if okList%}
+<div class="f justify-center">
+ <div class="c9 s12">
+
+  <div class="msg success txtB txtC">برندگان قرعه کشی سمت خدا  - استان {{okList[0]['province_name']}}</div>
+  <div class="f">
+    <div class="cauto os">
+      <a href="{{url.this}}/l4" class="btn block primary outline mB20">بازگشت به لیست استان‌ها</a>
+    </div>
+  </div>
+
+<div class="tblBox">
+
+  <table class="tbl1 v10 fs09">
+    <thead>
+      <tr class="fs07">
+        <th>#</th>
+        <th>نام و نام خانوادگی</th>
+        <th>نام پدر</th>
+        <th class="s0">شهر</th>
+        <th>موبایل</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for key, value in okList%}
+
+        <tr title="کد ثبت‌نامی {{value['کد'] | fitNumber}}">
+          <td>{{(key + 1) | fitNumber}}</td>
+          <td>{{value['نام برای نمایش عمومی']}}</td>
+          <td class="fs09">{{value['father']}}</td>
+          <td class="fs09 s0">{{value['city_name']}}</td>
+          <td class="ltr txtL">{{value['موبایل'] | fitNumber('mobile') | slice(0, 3)}} *** {{value['موبایل'] | fitNumber('mobile') | slice(8, 4)}}</td>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+ </div>
+
+</div>
+{%else%}
+
+<div class="f justify-center ">
+ <div class="c9 s12">
+  <div class="f">
+
+  {%for key, value in proviceListL%}
+    <div class="c3 s12 ">
+
+      <a href="{{url.that}}/{{value.code}}" class="">
+        <div class="msg primary2 txtB txtC mLa5">{{value.name}}<div class="fs08">۴۰ نفر</div></div>
+
+      </a>
+    </div>
+  {%endfor%}
+  </div>
+
+
+ </div>
+
+</div>
+{%endif%}
+
+
+
+
+<div class="msg txtC success2 mT10">
+امام رضا ع: هرکس نتواند هدیه‌ای به ما بدهد، به دوستان شایسته ما پیشکش کند تا ثواب هدیه دادن به ما را دریابد.<br/>
+
+دیگران را به هدیه دادن به اهل بيت ع دعوت کنید<br/>
+
+سمت خدا، موسسه حضرت خدیجه سلام الله علیها<br/>
+
+  <a class="btn  primary mT10"  href="{{url.kingdom}}/donate">من هم می خواهم سهیم باشم</a>
+
+</div>
+<a class="msg txtC success block txtB" href="{{url.kingdom}}/donate">اگر زائر نشدی میتوانی بانی زیارت بشی</a>
+
+
+{%endblock%}
+
+
+

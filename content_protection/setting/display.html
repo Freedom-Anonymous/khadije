@@ -1,0 +1,77 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+{{block('settingPageStep')}}
+
+<form method="post" autocomplete="off">
+  <div class="f justify-center">
+    <div class="c6 s12 m8">
+      <div class="cbox">
+
+            <div class="msg">
+              {%trans "Occasion target"%}
+            </div>
+
+            <label for="title">{%trans "Title"%}</label>
+            <div class="input">
+              <input type="text" id="title" name="title" value="{{dataRow.title}}" maxlength="50" autofocus>
+            </div>
+
+            {%if editMode%}
+          <label for="status">{%trans "Status"%}</label>
+          <div class="f mB10">
+           <div class="radio3 green">
+            <input type="radio" id="r-enable" name="status"  value="enable" {%if dataRow.status == 'enable' %}checked{%endif%}>
+            <label for="r-enable">{%trans "Enable"%}</label>
+           </div>
+
+           <div class="radio3 green">
+            <input type="radio" id="r-deleted" name="status"  value="deleted" {%if dataRow.status == 'deleted' %}checked{%endif%}>
+            <label for="r-deleted">{%trans "Deleted"%}</label>
+           </div>
+          </div>
+          {%endif%}
+
+
+
+        <footer class="txtRa">
+          {%if editMode%}<a class="btn secondary outline" href="{{url.that}}">{%trans "Cancel"%}</a>{%endif%}
+          <button class="btn primary">{%if editMode%}{%trans "Edit"%}{%else%}{%trans "Add"%}{%endif%}</button>
+         </footer>
+
+      </div>
+    </div>
+  </div>
+  <div class="f justify-center">
+    <div class="c6 m8 s12">
+      {%if dataTable%}
+      <div class="tblBox">
+        <table class="tbl1 v4">
+          <tbody class="fs14">
+          {%for key, value in dataTable%}
+            <tr {%if value.status == 'deleted'%} class="negative" {%else%}{%endif%}>
+              <td class="collapsing">{{(key + 1) | fitNumber}}</td>
+              <td>
+                {%if value.status == 'deleted'%}
+                  <a href="{{url.that}}?id={{value.id}}" class="fc-mute"> <i class="sf-edit"></i> {{value.title}}</a>
+                {%else%}
+                  <a href="{{url.that}}?id={{value.id}}"> <i class="sf-edit"></i> {{value.title}}</a>
+                {%endif%}
+
+
+              </td>
+              <td>{%set myStatus = value.status%}{%trans myStatus%}</td>
+
+            </tr>
+          {%endfor%}
+          </tbody>
+        </table>
+      </div>
+      {%endif%}
+    </div>
+  </div>
+</form>
+
+
+{%endblock%}

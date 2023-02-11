@@ -1,0 +1,127 @@
+{%extends 'content_lottery/item/layout.html'%}
+
+{%block pageContent%}
+{%include 'content_lottery/item/pageStep.html'%}
+  <div class="justify-center f">
+   <form method="post" class="c5 m6 s12" autocomplete="off">
+   	<div class="cbox">
+      <h4>{%trans "Required field"%}</h4>
+
+      <div class="switch1">
+      <input type="checkbox" name="firstname" id="firstname" checked disabled>
+      <label for="firstname"></label>
+      <label for="firstname">{%trans "First name"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="lastname" id="lastname" checked disabled>
+      <label for="lastname"></label>
+      <label for="lastname">{%trans "Last name"%}</label>
+    </div>
+
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="nationalcode" id="nationalcode" checked disabled>
+      <label for="nationalcode"></label>
+      <label for="nationalcode">{%trans "National code"%}</label>
+    </div>
+
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="gender" id="gender" checked disabled >
+      <label for="gender"></label>
+      <label for="gender">{%trans "Gender"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="mobile" id="mobile" checked disabled>
+      <label for="mobile"></label>
+      <label for="mobile">{%trans "Mobile"%}</label>
+    </div>
+
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="father" id="father" {% if requiredfield.father %} checked {%endif%} >
+      <label for="father"></label>
+      <label for="father">{%trans "Father name"%}</label>
+    </div>
+
+
+
+
+      <div class="switch1 mT10">
+      <input type="checkbox" name="marital" id="marital" {% if requiredfield.marital %} checked {%endif%} >
+      <label for="marital"></label>
+      <label for="marital">{%trans "Marital"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="birthdate" id="birthdate" {% if requiredfield.birthdate %} checked {%endif%} >
+      <label for="birthdate"></label>
+      <label for="birthdate">{%trans "Birthdate"%}</label>
+    </div>
+
+      <div class="switch1 mT10">
+      <input type="checkbox" name="phone" id="phone" {% if requiredfield.phone %} checked {%endif%} >
+      <label for="phone"></label>
+      <label for="phone">{%trans "Phone"%}</label>
+    </div>
+
+      <div class="switch1 mT10">
+      <input type="checkbox" name="city" id="city" {% if requiredfield.city %} checked {%endif%} >
+      <label for="city"></label>
+      <label for="city">{%trans "City"%}</label>
+    </div>
+
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="address" id="address" {% if requiredfield.address %} checked {%endif%} >
+      <label for="address"></label>
+      <label for="address">{%trans "Address"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="education" id="education" {% if requiredfield.education %} checked {%endif%} >
+      <label for="education"></label>
+      <label for="education">{%trans "Education"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="videofile" id="videofile" {% if requiredfield.videofile %} checked {%endif%} >
+      <label for="videofile"></label>
+      <label for="videofile">{%trans "Upload Video file"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="imagefile" id="imagefile" {% if requiredfield.imagefile %} checked {%endif%} >
+      <label for="imagefile"></label>
+      <label for="imagefile">{%trans "Upload image file"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="desc" id="desc" {% if requiredfield.desc %} checked {%endif%} >
+      <label for="desc"></label>
+      <label for="desc">{%trans "Get description"%}</label>
+    </div>
+
+    <hr>
+    <div class="switch1 mT10">
+      <input type="checkbox" name="showstats" id="showstats" {% if requiredfield.showstats %} checked {%endif%} >
+      <label for="showstats"></label>
+      <label for="showstats">{%trans "Show Stats"%}</label>
+    </div>
+
+    <div class="switch1 mT10">
+      <input type="checkbox" name="inquiry" id="inquiry" {% if requiredfield.inquiry %} checked {%endif%} >
+      <label for="inquiry"></label>
+      <label for="inquiry">{%trans "User can inquiry"%}</label>
+    </div>
+
+
+     {{block('isave')}}
+   	</div>
+   </form>
+  </div>
+
+{%endblock%}
+

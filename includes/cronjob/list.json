@@ -1,0 +1,10 @@
+{
+  "thankYouMessage": {
+    "title": "Thank you message",
+    "url": "thankyoumessage"
+  },
+  "smsapp": {
+    "title": "Send sms application notif",
+    "url": "smsapp"
+  }
+}

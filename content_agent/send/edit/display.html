@@ -1,0 +1,378 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+{%include 'content_agent/send/pageStep.html'%}
+
+
+
+<div class="f justify-center">
+  <div class="c6 m10 s12">
+    <div class="cbox">
+
+        <h2>ویرایش اطلاعات اعزام</h2>
+
+          <div class="msg primary2">
+            <b>{{defaultPlace.title}}</b>
+          </div>
+
+            {%if dataRow.missionary_id%}
+              <div class="msg f">
+                <div class="cauto mRa10 txtB">مبلغ</div>
+                <div class="cauto"><img src="{{dataRow.missionary_avatar}}" class="avatar"></div>
+                <div class="c mLa10">{{dataRow.missionary_displayname}}</div>
+                <div class="cauto">{{dataRow.missionary_mobile | fitNumber(false)}}</div>
+              </div>
+            {%endif%}
+
+            {%if dataRow.servant_id%}
+              <div class="msg f">
+                <div class="cauto mRa10 txtB">نگهبان</div>
+                <div class="cauto"><img src="{{dataRow.servant_avatar}}" class="avatar"></div>
+                <div class="c mLa10">{{dataRow.servant_displayname}}</div>
+                <div class="cauto">{{dataRow.servant_mobile | fitNumber(false)}}</div>
+              </div>
+            {%endif%}
+
+             {%if dataRow.servant2_id%}
+              <div class="msg f">
+                <div class="cauto mRa10 txtB">نگهبان ۲</div>
+                <div class="cauto"><img src="{{dataRow.servant2_avatar}}" class="avatar"></div>
+                <div class="c mLa10">{{dataRow.servant2_displayname}}</div>
+                <div class="cauto">{{dataRow.servant2_mobile | fitNumber(false)}}</div>
+              </div>
+            {%endif%}
+
+
+           {%if dataRow.adminoffice_id%}
+              <div class="msg f">
+                <div class="cauto mRa10 txtB">مدیر زائرسرا</div>
+                <div class="cauto"><img src="{{dataRow.adminoffice_avatar}}" class="avatar"></div>
+                <div class="c mLa10">{{dataRow.adminoffice_displayname}}</div>
+                <div class="cauto">{{dataRow.adminoffice_mobile | fitNumber(false)}}</div>
+              </div>
+            {%endif%}
+
+
+
+        <form method="post" autocomplete="off">
+
+
+          <label for="titlex">عنوان یا شناسه اعزام</label>
+          <div class="input">
+            <input type="text" name="title" id="titlex" value="{{dataRow.title}}">
+          </div>
+
+          <input type="hidden" name="city" value="{{myCity}}">
+          <input type="hidden" name="job" value="{{requestGET.job}}">
+          <input type="hidden" name="user" value="{{requestGET.user}}">
+          <input type="hidden" name="missionary" value="{{requestGET.user}}">
+
+          {{block('imodir')}}
+          {{block('imaddahList')}}
+          {{block('iRabetList')}}
+          {{block('inazerList')}}
+          {{block('ikhademList')}}
+          {{block('ikhadem2List')}}
+
+
+
+          <div class="f mT20">
+
+            <div class="c6 s12 mB5">
+              <div class="input ltr">
+                <input class="datepicker" type="text" name="startdate" placeholder='{%trans "Start date"%}' id="startdate"  value="{{dataRow.startdate}}" maxlength='20' data-format="YYYY/MM/DD"data-view="day">
+              </div>
+              <label for="starttime"></label>
+              <div class="input clockpicker" data-placement="top" data-align="left">
+                <input type="text" name="starttime" id="starttime" value="{%if dataRow.startdate%}{{dataRow.startdate | date('H:i')}}{%endif%}" placeholder='{%trans "Start time"%}' autocomplete="off">
+              </div>
+            </div>
+
+
+            <div class="c6 s12 mB5 pLa5">
+              <div class="input ltr">
+                <input class="datepicker" type="text" name="enddate" placeholder='{%trans "End date"%}' id="enddate"  value="{{dataRow.enddate}}" maxlength='20' data-format="YYYY/MM/DD"data-view="day">
+              </div>
+               <label for="endtime"></label>
+              <div class="input clockpicker" data-placement="top" data-align="left">
+                <input type="text" name="endtime" id="endtime" value="{%if dataRow.enddate%}{{dataRow.enddate | date('H:i')}}{%endif%}" placeholder='{%trans "End time"%}' autocomplete="off">
+              </div>
+            </div>
+
+          </div>
+
+          {{block('iStatus')}}
+          {{block('IDesc')}}
+
+
+          <div class="txtRa">
+          {%if url.child == 'add'%}
+            <button class="btn success mT10">ثبت اعزام جدید</button>
+          {%else%}
+            <button class="btn primary mT10">ویرایش اطلاعات</button>
+          {%endif%}
+
+          </div>
+
+        </form>
+
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+
+{%block IDesc%}
+<label for="desc">{%trans "Description"%}</label>
+<textarea class="txt" rows="2" name="desc" id="desc"  placeholder="توضیحات">{{dataRow.desc}}</textarea>
+
+{%endblock%}
+
+{%block iStatus%}
+<label for="status">{%trans "Status"%}</label>
+<select name="status" class="select ui dropdown " id="status"  >
+  <option value="enable" {%if dataRow.status == 'enable'%} selected {%endif%}>{%trans "enable"%}</option>
+  <option value="disable" {%if dataRow.status == 'disable'%} selected {%endif%}>{%trans "disable"%}</option>
+  <option value="deleted" {%if dataRow.status == 'deleted'%} selected {%endif%}>{%trans "deleted"%}</option>
+  <option value="expire" {%if dataRow.status == 'expire'%} selected {%endif%}>{%trans "expire"%}</option>
+  <option value="lock" {%if dataRow.status == 'lock'%} selected {%endif%}>قفل شده</option>
+  <option value="draft" {%if dataRow.status == 'draft'%} selected {%endif%}>{%trans "draft"%}</option>
+</select>
+{%endblock%}
+
+
+{%block iZaerSara%}
+<h6 class='mT10'>زائر سرا</h6>
+
+          <input type="hidden" name="place" value="{{requestGET.place}}">
+
+{%if placeList%}
+<select name="place" class="select ui dropdown search" id="place" disabled  >
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in placeList%}
+    <option value="{{value.id}}" {%if dataRow.place_id == value.id or requestGET.place == value.id%} selected {%endif%}>{{value.title}}</option>
+  {%endfor%}
+</select>
+{%else%}
+<div class="msg warn2">هیچ مکانی متناسب با شرایط اعزام ایشان یافت نشد!</div>
+{%endif%}
+
+{%endblock%}
+
+
+
+
+{%block iRohani%}
+
+{%if RohaniList%}
+
+<label>روحانی کاروان</label>
+<select name="rohani" class="select ui dropdown search" id="rohani">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in RohaniList%}
+    <option value="{{value.user_id}}" {%if dataRow.clergy_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+
+
+
+{%block imodir%}
+{%if modirList%}
+<label>مدیر کاروان</label>
+<select name="admin" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in modirList%}
+    <option value="{{value.user_id}}" {%if dataRow.admin_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+{%block imaddahList %}
+{%if maddahList%}
+<label>مداح کاروان</label>
+<select name="maddah_id" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in maddahList%}
+    <option value="{{value.user_id}}" {%if dataRow.maddah_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+{%block iRabetList %}
+{%if rabetList%}
+<label>رابط کاروان</label>
+<select name="rabet_id" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in rabetList%}
+    <option value="{{value.user_id}}" {%if dataRow.rabet_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+{%block inazerList %}
+{%if nazerList%}
+<label>ناظر کاروان</label>
+<select name="nazer_id" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in nazerList%}
+    <option value="{{value.user_id}}" {%if dataRow.nazer_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+{%block ikhademList %}
+{%if khademList%}
+<label>خادم کاروان</label>
+<select name="khadem_id" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in khademList%}
+    <option value="{{value.user_id}}" {%if dataRow.khadem_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+{%block ikhadem2List %}
+{%if khademList%}
+<label>خادم ۲ کاروان</label>
+<select name="khadem2_id" class="select ui dropdown search" id="modir">
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in khademList%}
+    <option value="{{value.user_id}}" {%if dataRow.khadem2_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+
+
+
+{%block imodirZaerSara%}
+
+<input type="hidden" name="adminoffice" value="{{defaultPlace.adminoffice_id}}">
+
+{%if servantList%}
+<label>مدیر زائرسرا</label>
+<select name="adminoffice" class="select ui dropdown search" id="servant" disabled >
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in servantList%}
+    <option value="{{value.user_id}}" {%if dataRow.adminoffice_id == value.user_id or defaultPlace.adminoffice_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+
+
+{%block inegahban%}
+
+<input type="hidden" name="servant" value="{{defaultPlace.servant_id}}">
+{%if negahbanList%}
+
+<label>نگهبان زائرسرا</label>
+<select name="servant" class="select ui dropdown search" id="negahban" disabled >
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in negahbanList%}
+    <option value="{{value.user_id}}" {%if dataRow.servant_id == value.user_id or defaultPlace.servant_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+
+
+
+{%block inegahban2%}
+
+<input type="hidden" name="servant" value="{{defaultPlace.servant2_id}}">
+{%if negahbanList%}
+
+<label>نگهبان زائرسرا ۲</label>
+<select name="servant2" class="select ui dropdown search" id="negahban" disabled >
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in negahbanList%}
+    <option value="{{value.user_id}}" {%if dataRow.servant2_id == value.user_id or defaultPlace.servant2_id == value.user_id%} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+
+
+
+
+
+{%block imoballeqe%}
+
+{%if moballeqeList%}
+<label>مبلغ کاروان</label>
+<select name="missionary" class="select ui dropdown search" id="moballeq" disabled >
+  <option value="">{%trans "Please select one item"%}</option>
+  <option value="0">{%trans "Nobody"%}</option>
+  {%for key, value in moballeqeList%}
+    <option value="{{value.user_id}}" {%if dataRow.missionary_id == value.user_id or requestGET.user == value.user_id or requestGET.missionary == value.user_id %} selected {%endif%}>{{value.displayname}} - {{value.mobile |fitNumber(false)}}</option>
+  {%endfor%}
+</select>
+{%else%}
+
+{%endif%}
+
+{%endblock%}
+
+

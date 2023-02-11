@@ -1,0 +1,144 @@
+{%extends 'content_protection/layout.html'%}
+
+
+
+{% block ititle %}
+<label for="title">{%trans "Title"%} <small class="fc-red">* {%trans "Require"%}</small></label>
+<div class="input">
+  <input type="text" name="title" id="title" occasionholder='{%trans "Title of occasion"%} *' value="{{dataRow.title}}" autofocus required maxlength='150' minlength="1" pattern=".{1,150}" title='{%trans "Enter a valid title"%}'>
+</div>
+{% endblock %}
+
+
+{% block iSubtitle %}
+<label for="subtitle">{%trans "Subtitle"%}</label>
+<div class="input">
+  <input type="text" name="subtitle" id="subtitle"  value="{{dataRow.subtitle}}" maxlength='150' minlength="1" pattern=".{1,150}" >
+</div>
+{% endblock %}
+
+
+
+{% block iDate %}
+<div class="f">
+
+  <div class="c6 s12 mB5 pRa5">
+      <label>{%trans "Start date"%}</label>
+        <div class="input ltr">
+          <input class="datepicker" type="text" name="startdate" placeholder='{%trans "Start date"%}' id="startdate"  value="{{dataRow.startdate}}" maxlength='20' data-format="YYYYMMDD"data-view="month">
+        </div>
+      </div>
+
+
+      <div class="c6 s12 mB5 pRa5">
+      <label>{%trans "End date"%}</label>
+        <div class="input ltr">
+          <input class="datepicker" type="text" name="expiredate" placeholder='{%trans "End date"%}' id="expiredate"  value="{{dataRow.expiredate}}" maxlength='20' data-format="YYYYMMDD"data-view="month">
+        </div>
+      </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+{%block iDesc%}
+<div class="msg info">تنظیم پیام برای همه نماینده‌ها در زمان فعالیت در این مناسبت</div>
+<textarea class="txt mB10" id='desc' name="desc" placeholder='متن پیام شما' maxlength='500' rows="5">{{dataRow.desc}}</textarea>
+
+{%endblock%}
+
+
+
+
+
+
+
+{%block iadd%}
+<button class="btn primary block mT20">{%trans "Add"%}</button>
+{%endblock%}
+
+{%block isave%}
+<button class="btn primary block mT20">{%trans "Save"%}</button>
+{%endblock%}
+
+
+
+{%block iStatus%}
+<div class="mT15">
+ <label >{%trans "Status of occasion"%}</label>
+
+ <div class="radio1 green">
+  <input type="radio" id="r-draft" name="status" value="draft" {%if dataRow.status == 'draft' or not dataRow.status %} checked{%endif%}>
+  <label for="r-draft">{%trans "Draft"%}</label>
+ </div>
+
+
+ <div class="radio1 black">
+  <input type="radio" id="r-registring" name="status" value="registring" {%if dataRow.status == 'registring'%} checked{%endif%} >
+  <label for="r-registring">{%trans "registring"%}</label>
+ </div>
+
+  <div class="radio1 green">
+  <input type="radio" id="r-distribution" name="status" value="distribution" {%if dataRow.status == 'distribution' or not dataRow.status %} checked{%endif%}>
+  <label for="r-distribution">{%trans "distribution"%}</label>
+ </div>
+
+  <div class="radio1 green">
+  <input type="radio" id="r-done" name="status" value="done" {%if dataRow.status == 'done' or not dataRow.status %} checked{%endif%}>
+  <label for="r-done">{%trans "done"%}</label>
+ </div>
+
+  <div class="radio1 black mB25">
+  <input type="radio" id="r-deleted" name="status" value="deleted" {%if dataRow.status == 'deleted'%} checked{%endif%} >
+  <label for="r-deleted">{%trans "Deleted"%}</label>
+ </div>
+</div>
+{%endblock%}
+
+
+
+
+
+{%block occasionPageStep%}
+
+<div class="f">
+  <div class="c s6">
+    <a class="dcard {%if url.child == 'edit'%}active{%endif%}" href='{{url.this}}/edit?id={{requestGET.id}}'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-edit"></i></div>
+        <div class="label">{%trans "Edit"%}</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="c s6">
+    <a class="dcard {%if url.child == 'allowagent'%}active{%endif%}" href='{{url.this}}/allowagent?id={{requestGET.id}}'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-user-5"></i></div>
+        <div class="label">{%trans "Allow agents"%}</div>
+      </div>
+    </a>
+  </div>
+
+    <div class="c s6">
+    <a class="dcard {%if url.child == 'items'%}active{%endif%}" href='{{url.this}}/items?id={{requestGET.id}}'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-shopping-cart"></i></div>
+        <div class="label">{%trans "Occasion items"%}</div>
+      </div>
+    </a>
+  </div>
+
+    <div class="c s6">
+    <a class="dcard {%if url.child == 'sms'%}active{%endif%}" href='{{url.this}}/sms?id={{requestGET.id}}'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-email-envelope"></i></div>
+        <div class="label">{%trans "Send SMS notification"%}</div>
+      </div>
+    </a>
+  </div>
+</div>
+{%endblock%}

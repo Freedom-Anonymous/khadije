@@ -1,0 +1,397 @@
+{%block donateProduct%}
+
+{%if  paymentVerifyMsg %}
+<div class="msg txtC {%if paymentVerifyMsgTrue %}success{%else%}danger{%endif%}">{{ paymentVerifyMsg}}</div>
+{%endif%}
+
+<div class="f">
+ <div class="c4 pRa10">
+{{block ('donateFormProduct')}}
+ </div>
+ <div class="c8">
+{{block ('payProductBox')}}
+ </div>
+</div>
+{%endblock%}
+
+
+{%block donateFormPay%}
+<div class="f justify-center">
+  <div class="c6 s12">
+    <div class="cbox fs10 donateForm">
+      <h2 class="pageTitle"><a href="{{url.pwd}}">{{page.title}}</a></h2>
+
+{%if  paymentVerifyMsg %}
+      <div class="msg txtC {%if paymentVerifyMsgTrue %}success{%else%}danger{%endif%}">{{ paymentVerifyMsg}}</div>
+{%endif%}
+  {%block donateMasterForm%}
+      <form method="post" autocomplete="off">
+
+        <div class="f">
+          <div class="c s12 pRa5">{{block ('iFullname')}}</div>
+          <div class="c s12">{{block ('iMobile')}}</div>
+        </div>
+        <input type="hidden" name="username" value="">
+        {%include display.hive%}
+
+        {%if isAndroid%}
+          <input type="hidden" name="isAndroid" value="1">
+        {%endif%}
+
+        {{block ('iNiyat') }}
+        {{block ('iWay') }}
+        {{block ('iCount') }}
+        {{block ('iAmount') }}
+        {{block ('iFatherName') }}
+        {{block ('iDonersList')}}
+        {{block ('iDirectPay')}}
+        {{block ('ipay')}}
+      </form>
+    {%endblock%}
+    </div>
+  </div>
+
+{{block ('donateArchive')}}
+</div>
+
+
+{%endblock%}
+
+
+{%block donateFormProduct%}
+ <form method="post" class="cbox" autocomplete="off">
+   {{block ('iFullname')}}
+   {{block ('iMobile')}}
+   {{block ('iEmail')}}
+   <input type="hidden" name="username" value="">
+   {{block ('iNiyat') }}
+   {{block ('iAmountLock') }}
+   {{block ('ipay')}}
+ </form>
+
+{%endblock%}
+
+
+
+{%block donateArchive%}
+{%if donateArchive %}
+  <div class="c5 s12 pLa25">
+   <div class="cbox fs09 donateLists donateForm">
+
+    <h4 class="txtC">{%trans "List of last success donations of yours"%}</h4>
+{%for key, value in donateArchive%}
+    <div class="msg f" {%if value.niyat%} title='{%trans "Your niyat is" %} {{value.niyat}}' {%endif%}>
+      <div class="c"><b>{{value.plus | fitNumber}}</b> {%trans "Toman"%}</div>
+      <div class="c">
+{%if value.doners%}
+{%if value.fullname%}
+        <div class="badge primary">{{value.fullname}}</div>
+{%else%}
+        <div class="badge success">{%trans "Untitled"%}</div>
+{%endif%}
+{%else%}
+        <div class="badge">{%trans "Anonymous"%}</div>
+{%endif%}
+
+      </div>
+    <div class="c">
+    {%if value.hazinekard%}
+        <div class="badge light">{{value.hazinekard}}</div>
+    {%endif%}
+    </div>
+
+      <div class="cauto os" title='{{value.date | dt }}'> {{value.date | dt('human', 'year') }}</div>
+    </div>
+{%endfor%}
+    <div class="msg simple txtC">{%trans "Thanks"%} <span class="sf-heart fc-red"></span></div>
+   </div>
+  </div>
+{%endif%}
+{%endblock%}
+
+
+
+{%block payProductBox%}
+
+{%if need%}
+  <div class="cbox donateProduct">
+    <div class="f">
+      {%for key, value in need%}
+      <div class="c4 s12">
+         <div class="vcard green mA5">
+                  {%if value.fileurl%}
+            <img src="{{value.fileurl}}">
+          {%else%}
+            <img src="{{url.static}}/siftal/images/default/image.png">
+          {%endif%}
+            <div class="content">
+              <div class="header">{{value.title}}</div>
+              <div class="meta">
+                <span>{%trans "Requested"%} {{value.request | number_format | fitNumber}}</span>
+                <span class="badge">{{value.amount | number_format | fitNumber}} {%trans "Toman"%}</span>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="input">
+               <input type="number" name="{{value.id}}" placeholder='{%trans "Your help"%}' min='1' title='{%trans "Enter a valid number"%}' data-price='{{value.amount}}'>
+               <span class="addon">{{value.amount | number_format | fitNumber}}</span>
+              </div>
+
+            </div>
+          </div>
+      </div>
+      {%endfor%}
+
+    </div>
+  </div>
+{%endif%}
+{%endblock%}
+
+
+
+
+
+{%block ipay%}
+<button class="btn primary block mT5">{%trans "Pay"%}</button>
+{%endblock%}
+
+
+
+{%block iName%}
+<label for='fname'>{%trans "First name"%}</label>
+<div class="input">
+ <input type="text" name="firstname" placeholder='{%trans "Your name"%}' maxlength='50' minlength="1" pattern=".{1,50}" title='{%trans "Enter a valid name"%}' id='fname' autofocus>
+</div>
+{%endblock%}
+
+
+{%block iFullname%}
+<label for='ffamily'>{%trans "Full name"%}</label>
+<div class="input">
+ <input type="text" name="fullname" value="{{user.displayname}}" placeholder='{%trans "Your Name"%}' maxlength='50' pattern=".{1,50}" title='{%trans "Enter first name and last name to show in doners list or leave it blank"%}' id='ffamily' {%if user.permission == 'admin' or user.permission == 'supervisor'%}{%else%} value='{{user.displayname}}'{%endif%}>
+</div>
+{%endblock%}
+
+
+
+
+
+{%block iMobile%}
+<label for='fmobile'>{%trans "Mobile"%}</label>
+<div class="input">
+ <input type="tel" name="mobile" value="{{user.mobile}}" placeholder='{%trans "Your mobile number"%}' maxlength='50' minlength="1" pattern=".{1,50}" title='{%trans "If you enter your mobile, we send verify of payment via SMS to this number"%}' id='fmobile' {%if user.permission == 'admin' or user.permission == 'supervisor'%}{%else%} value='{{user.mobile}}'{%endif%}>
+</div>
+{%endblock%}
+
+
+
+{%block iEmail%}
+<label for='femail'>{%trans "Email"%}</label>
+<div class="input">
+ <input type="email" name="email" placeholder='{%trans "Email"%}' maxlength='50' minlength="1" pattern=".{1,50}" title='{%trans "Enter a valid email"%}' id='femail' value='{{user.email}}'>
+</div>
+{%endblock%}
+
+
+
+
+
+{%block iNiyat%}
+<label for='fniyat'>{%trans "Intent"%}</label>
+<div class="input">
+ <input type="text" name="niyat" placeholder='{%trans "Intention to donate this fee"%}' maxlength='50' pattern=".{1,50}" title='{%trans "It is optional and depending on your intention can enter it"%}' id='fniyat'>
+</div>
+{%endblock%}
+
+
+
+{%block iAmount%}
+<label for='totalAmount'>{%trans "Pay Amount"%} <small class="fc-red">* {%trans "Require"%}</small></label>
+<div class="input">
+ <input type="number" name="amount" placeholder='{%trans "Pay Amount"%} {%trans "Rial"%}*' title='{%trans "Amount of your donation"%}' id='totalAmount' required data-response-realtime data-rial max="99999999999" min="1000" {%if requestGET.nazr == 'aghighe'%} value='{{waySelected.price1}}' readonly{%endif%}>
+  <span class="addon">{%trans "Rial"%}</span>
+</div>
+
+{%if lang.current == 'fa'%}
+<div class="msg info2 txtB" data-response='amount' data-response-call='wordifyResponse'></div>
+{%endif%}
+
+{%endblock%}
+
+
+
+
+
+{%block iFatherName%}
+<div data-response='way' data-response-where='{{aqiqeWay}}' data-response-hide>
+
+  <div class="f">
+    <div class="c6">
+        <label for='childName'>نام فرزند <small class="fc-red">* {%trans "Require"%}</small></label>
+        <div class="input">
+         <input type="text" name="childname" id='childName' maxlength="50">
+        </div>
+    </div>
+    <div class="c6">
+      <div class="mLa5">
+
+        <label for='fatherName'>نام پدر <small class="fc-red">* {%trans "Require"%}</small></label>
+        <div class="input">
+         <input type="text" name="fathername" maxlength="50" >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+
+
+
+{%block iAmountLock%}
+<label for='totalAmount'>{%trans "Total Pay Amount"%} <small class="fc-red">* {%trans "Require"%}</small></label>
+<div class="input">
+ <input type="number" name="amount" placeholder='{%trans "Pay Amount"%}' id='totalAmount' required readonly>
+</div>
+{%endblock%}
+
+
+{%block iCount%}
+<div class="countSelector" style="display: none;">
+  <label for='totalCount'>{%trans "Count"%}</label>
+  <div class="input">
+    <span class="addon btn" data-connect='totalCount' data-val="1">+</span>
+   <input type="number" name="totalCount" id='totalCount' max="999" min="1">
+    <span class="addon btn" data-connect='totalCount' data-val="-1">-</span>
+  </div>
+</div>
+{%endblock%}
+
+
+{%block iDonersList%}
+<label class="mT10">{%trans "Show in public doners list?"%} <a href="{{urlRaw}}/doners" target="_blank">{%trans "Check doners list"%}</a></label>
+ <div class="c radio1">
+  <input type="radio" id="r-yes" name="doners" value="yes" checked>
+  <label for="r-yes">{%trans "Yes, show my name and price"%}</label>
+ </div>
+
+ <div class="c radio1 black">
+  <input type="radio" id="r-no" name="doners" value="no">
+  <label for="r-no">{%trans "No, Show as anonymous"%}</label>
+ </div>
+{%endblock%}
+
+
+{%block iDirectPay%}
+{%if user.permission == 'admin' or user.permission == 'supervisor' and false%}
+ <div class="switch1 mT20">
+ <input type="checkbox" name="manualPay" id="manualPay">
+ <label for="manualPay"  data-on='{%trans "Manual"%}' data-off='{%trans "Normal"%}'></label>
+ <label for="manualPay">{%trans "Admin direct pay"%}</label>
+</div>
+{%endif%}
+{%endblock%}
+
+
+{%block iWay%}
+{%if waySelected%}
+<div class="msg info f">
+  <div class="cauto pRa10 fs20">
+    <img src="{{waySelected.fileurl}}" alt="{{waySelected.title}}" class="block avatar">
+  </div>
+  <div class="c f align-center">
+    <span class="txtB pRa10">{{waySelected.title}}</span>
+    <div class="fs09">{{waySelected.desc}}</div>
+    <input type="radio" name="way" value="{{waySelected.title}}" checked class="hide">
+  </div>
+</div>
+{%elseif wayList%}
+<div class="donateWays">
+  <label>{%trans "Spending method"%}</label>
+  <div class="f justify-center txtC">
+
+
+{%for key, myWay in wayList%}
+
+      {%if key == 0 %}
+      {%set myFirstWayId = "r-" ~ myWay.id %}
+      <input type="hidden" name="myFirstWayId" value="{{myFirstWayId}}" id="myFirstWayId">
+      {%endif%}
+
+<div class="cauto">
+
+  <div class="radioGateway{%if myWay.iactive%} blink{%endif%}" {%if myWay.desc%}title="{{myWay.desc}}"{%endif%} {%if myWay.allowpirce%}data-customprice{%endif%}>
+    <input type="radio" name="way" value="{{myWay.title}}" id="r-{{myWay.id}}" {%if loop.index0 == 0%}checked{%endif%}>
+    <label for="r-{{myWay.id}}">
+{%if myWay.fileurl%}
+      <img src="{{myWay.fileurl}}" alt="{{myWay.title}}">
+{%else%}
+      <img src="{{url.static}}/images/logo.png" alt="{{site.title}}">
+{%endif%}
+    </label>
+  </div>
+  <div><label for="r-{{myWay.id}}">{{myWay.title}}</label></div>
+</div>
+{%endfor%}
+  </div>
+
+
+</div>
+{%endif%}
+
+  <div class="donateOptions mB5">
+{%for key, myWay in wayList%}
+{%if myWay.title1 or myWay.title2 or myWay.title3%}
+   <div data-way='{{myWay.title}}' style="display: none;">
+    <div class="donateOpt msg pTB0 mT5 mB0">
+    {%if myWay.allowpirce%}
+       <div class="radio1 pA0-f">
+        <input type="radio" name="wayOpt" value="custom-{{myWay.title}}" id="r-{{myWay.id}}-custom" data-custom>
+        <label for="r-{{myWay.id}}-custom">{%trans "Custom Amount"%}</label>
+      </div>
+    {%endif%}
+
+    {%if myWay.price1 and myWay.title1%}
+       <div class="radio1 pA0-f">
+        <input type="radio" name="wayOpt" value="{{myWay.title1}}" id="r-{{myWay.id}}-op1" data-val='{{myWay.price1}}'>
+        <label for="r-{{myWay.id}}-op1">{{myWay.title1}} <span class="badge light fs10">{{myWay.price1 | fitNumber}} {%trans "Rial"%}</span></label>
+      </div>
+    {%endif%}
+    {%if myWay.price2 and myWay.title2%}
+       <div class="radio1 pA0-f">
+        <input type="radio" name="wayOpt" value="{{myWay.title2}}" id="r-{{myWay.id}}-op2" data-val='{{myWay.price2}}'>
+        <label for="r-{{myWay.id}}-op2">{{myWay.title2}} <span class="badge light fs10">{{myWay.price2 | fitNumber}} {%trans "Rial"%}</span></label>
+      </div>
+    {%endif%}
+    {%if myWay.price3 and myWay.title3%}
+       <div class="radio1 pA0-f">
+        <input type="radio" name="wayOpt" value="{{myWay.title3}}" id="r-{{myWay.id}}-op3" data-val='{{myWay.price3}}'>
+        <label for="r-{{myWay.id}}-op3">{{myWay.title3}} <span class="badge light fs10">{{myWay.price3 | fitNumber}} {%trans "Rial"%}</span></label>
+      </div>
+    {%endif%}
+    </div>
+   </div>
+{%endif%}
+{%endfor%}
+  </div>
+
+{%endblock%}
+
+
+
+{%block foot_js%}
+<script>
+    $( document ).ready(
+    function()
+    {
+        function StxFixRadio()
+        {
+            var myId = $('#myFirstWayId').val();
+            $('.donateForm input[type=radio][id='+myId+']').trigger('change');
+        }
+        setTimeout(StxFixRadio, 100)
+
+    });
+
+</script>
+{%endblock%}

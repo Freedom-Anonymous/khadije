@@ -1,0 +1,132 @@
+{%extends display.main%}
+
+
+{%block pageData%}
+{%use "content/donate/donateForm.html"%}
+
+
+{%block donateFormPay%}
+
+
+<div class="f justify-center">
+  <div class="c9 s12">
+    <div class="cbox fs10 donateForm">
+      <h2 class="pageTitle"><a href="{{url.pwd}}">{{page.title}}</a></h2>
+
+{%if  paymentVerifyMsg %}
+      <div class="msg txtC {%if paymentVerifyMsgTrue %}success{%else%}danger{%endif%}">{{ paymentVerifyMsg}}</div>
+{%endif%}
+  <form method="post" autocomplete="off">
+		  <div class="f">
+	        <div class="c s12 pRa5">{{block ('iFullname')}}</div>
+	        <div class="c s12">{{block ('iMobile')}}</div>
+	      </div>
+	        <input type="hidden" name="username" value="">
+	        {%include display.hive%}
+
+	        {%if isAndroid%}
+	          <input type="hidden" name="isAndroid" value="1">
+	        {%endif%}
+
+ 		{{block ('iNiyat') }}
+        {{block ('iProductList') }}
+
+        {{block ('iDonersList')}}
+
+
+
+        {{block ('ipay_factor')}}
+        {{block('factorSessionList')}}
+
+	</form>
+    </div>
+  </div>
+
+{{block ('donateArchive')}}
+</div>
+
+{%endblock%}
+
+
+{%endblock%}
+
+
+{%block pageTitle%}{%endblock%}
+
+
+{%block factorSessionList%}
+{%if factorSession%}
+<div class="tblBox pT50">
+
+  <table class="tbl1 v10">
+    <thead>
+      <tr>
+        <th class="collapsing"></th>
+        <th>{%trans "Title"%}</th>
+        <th>{%trans "Price"%}</th>
+        <th>{%trans "Count"%}</th>
+        <th>{%trans "Total"%}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for key, value in factorSession%}
+      <tr>
+        <td class="collapsing">{{loop.index | fitNumber}}</td>
+        <td>{{value.title}}</td>
+        <td>{{value.price | fitNumber}}</td>
+        <td>{{value.count | fitNumber}}</td>
+        <td>{{value.total | fitNumber}}</td>
+      </tr>
+      {%endfor%}
+      <tr class="negative txtC txtB">
+        <td class="txtB" colspan="3">{%trans "Sum"%}</td>
+        <td class="txtB" colspan="2">{{factorSessionSum | fitNumber}} <small>{%trans "Toman"%}</small></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{{block ('ipay2')}}
+{%endif%}
+
+{%endblock%}
+
+{%block ipay2%}
+<button class="btn success block mT5" name="forcepay" value="1">{%trans "Pay"%}</button>
+{%endblock%}
+
+
+
+{%block ipay_factor%}
+<button class="btn primary block mT5" {%if factorSession%}  data-scroll {%endif%}>{%trans "Calculate price"%}</button>
+{%endblock%}
+
+
+{%block iProductList%}
+<div class="f justify-center donateProductList">
+{%for key, value in productList%}
+    <div class="cauto m4 s6 pA5">
+      <div class="vcard shadow">
+        <img alt='siftal' src="{%if value.file%}{{value.file}}{%else%}{{url.static}}/siftal/images/default/image.png{%endif%}">
+        <div class="content">
+{%if value.unit%}
+          <div class="txtC mB5">{{value.unit}}</div>
+{%endif%}
+{%if value.subtitle%}
+          <div class="meta mB5">{{value.subtitle | fitNumber}}</div>
+{%endif%}
+          <div class="txtC fs08 txtB">{{value.price | fitNumber}} {%trans "Toman"%}</div>
+        </div>
+        <div class="footer pA5-f">
+          <div class="input">
+            <input type="number" name="product_{{value.id}}" placeholder='{%trans "Count"%}' value="{{factorSession[value.id | coding('decode')]['count']}}">
+          </div>
+        </div>
+    </div>
+  </div>
+{%endfor%}
+</div>
+{%endblock%}
+
+
+
+

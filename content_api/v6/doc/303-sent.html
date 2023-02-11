@@ -1,0 +1,101 @@
+{%if perm('smsApiDoc') or user.mobile == '989195191378' %}
+<div class="cbox" id='sms-sent'>
+
+  <h2 class="f" data-kerkere='#sms-sent-detail' data-kerkere-icon='open'>
+    <div class="cauto pRa10"><span class="badge primary">POST</span></div>
+    <div>{%trans "Set sms as sent sms"%}</div>
+  </h2>
+  <div id="sms-sent-detail">
+    <p>{%trans "Anyone you send SMS should notify the server of the SMS"%}</p>
+    <div class="msg url">
+      <i class="method">POST</i>
+      <span>{{apiURL}}<b>smsapp/sent</b></span>
+    </div>
+
+    {%include "/content_api/v6/header.html"%}
+
+    <div class="tblBox">
+      <h3>{%trans "Parameters"%}</h3>
+      <table class="tbl1 v3">
+        <thead>
+          <tr>
+            <th>{%trans "Name"%} <small>{%trans "type"%}</small></th>
+            <th>{%trans "Description"%} <small>{%trans "example"%}</small></th>
+            <th>{%trans "Constraints"%}</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>
+              <div class="txtB">smsid</div>
+              <i>String</i>
+            </td>
+            <td>
+              <div class="fc-mute">{%trans "example"%}</div>
+              <code>h</code>
+              <p>
+                {%trans "Get from list of sms"%}
+              </p>
+            </td>
+            <td>
+              <div class="fc-red"><i>{%trans "Required"%}</i></div>
+            </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+
+
+    <h3>{%trans "cURL"%} <small>{%trans "example"%}</small></h3>
+<pre>
+curl -X POST \
+  {{apiURL}}smsapp/sent \
+  -H 'gateway: 09109610612' \
+  -H 'smsappkey: sample' \
+  -F 'smsid=h' \
+
+</pre>
+<h3>{%trans "Response"%} <small>{%trans "Whene the status of message is changed"%}</small></h3>
+<pre>
+{
+  "ok": true,
+  "result": {
+    "date": "2019-08-21 16:19:35",
+    "jdate": "۱۳۹۸-۰۵-۳۰ ۱۶:۱۹",
+    "dashboard": {
+      "status": true,
+      "day": {
+        "send": 0,
+        "receive": 1
+      },
+      "total": {
+        "send": 0,
+        "receive": 1
+      }
+    }
+  }
+}
+</pre>
+
+
+<h3>{%trans "Response"%} <small>{%trans "When the sms not ready to save as sent"%}</small></h3>
+<pre>
+{
+  "ok": false,
+  "msg": [
+    {
+      "type": "error",
+      "text": "This message is not ready to save as sent message"
+    }
+  ],
+  "result": false
+}
+</pre>
+
+  </div>
+</div>
+
+{%endif%}

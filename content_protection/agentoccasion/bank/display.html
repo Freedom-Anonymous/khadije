@@ -1,0 +1,51 @@
+{%extends display.admin%}
+{%use 'content_protection/agentoccasion/pageStep.html' %}
+
+{%block pageContent%}
+{{block ('pageStep')}}
+
+<form method="post" autocomplete="off">
+  <div class="f justify-center">
+    <div class="c6 s12 m8">
+      <div class="cbox">
+
+
+
+        <label>{%trans "bankshaba"%}</label>
+        <div class="input">
+          <input type="text" name="bankshaba" value="{%if dataRow.bankshaba%}{{dataRow.bankshaba}}{%else%}{{dataRow.agent_detail.bankshaba}}{%endif%}">
+        </div>
+        <label>{%trans "bankhesab"%}</label>
+        <div class="input">
+          <input type="text" name="bankhesab" value="{%if dataRow.bankhesab%}{{dataRow.bankhesab}}{%else%}{{dataRow.agent_detail.bankhesab}}{%endif%}">
+        </div>
+        <label>{%trans "bankcart"%}</label>
+        <div class="input">
+          <input type="text" name="bankcart" value="{%if dataRow.bankcart%}{{dataRow.bankcart}}{%else%}{{dataRow.agent_detail.bankcart}}{%endif%}">
+        </div>
+        <label>{%trans "bankname"%}</label>
+        <div class="input">
+          <input type="text" name="bankname" value="{%if dataRow.bankname%}{{dataRow.bankname}}{%else%}{{dataRow.agent_detail.bankname}}{%endif%}">
+        </div>
+        <label>{%trans "bankownername"%}</label>
+        <div class="input">
+          <input type="text" name="bankownername" value="{%if dataRow.bankownername%}{{dataRow.bankownername}}{%else%}{{dataRow.agent_detail.bankownername}}{%endif%}">
+        </div>
+
+
+        <div class="txtRa">
+          {%if not dataRow.bankshaba and dataRow.agent_detail.bankshaba%}
+            <button class="btn primary">{%trans "Save for this occasion"%}</button>
+          {%else%}
+            <button class="btn success">{%trans "Save"%}</button>
+          {%endif%}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+{%endblock%}
+
+

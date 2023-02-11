@@ -1,0 +1,105 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+<div class="f">
+  <div class="c8">
+      <div class="f">
+        <div class="c6 s12">{{block('bServant')}}</div>
+        <div class="c6 s12">{{block('bServantSort')}}</div>
+        <div class="c12 s12">{{block('bSend')}}</div>
+        <div class="c3 s12">{{block('bPlace')}}</div>
+        <div class="c3 s12">{{block('bSkills')}}</div>
+        <div class="c3 s12">{{block('bAssessmentitem')}}</div>
+        <div class="c3 s12">{{block('bReport')}}</div>
+      </div>
+  </div>
+  <div class="c4">
+    <div class="cbox fs11 mB10">
+    <h2>آخرین اعزام‌ها</h2>
+    {%for key, value in lastAgent%}
+      <a class="msg f">
+        <div class="c">{{value.title}} <small>{{value.missionary_displayname}}</small></div>
+        <div class="cauto">{{value.datecreated | dt('human', 'year') }}</div>
+      </a>
+    {%endfor%}
+  </div>
+  </div>
+
+</div>
+{%endblock%}
+
+
+
+{%block bReport%}
+<a class="dcard x1" href='{{url.here}}/report{{xCity}}'>
+ <div class="statistic teal">
+  <div class="label"><i class="fs20 mRa5 sf-chart"></i></div>
+  <div class="label mT10">{%trans "Reports"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block bSkills%}
+<a class="dcard x1" href='{{url.here}}/skills{{xCity}}'>
+ <div class="statistic teal">
+  <div class="label"><i class="fs20 mRa5 sf-tools"></i></div>
+  <div class="label mT10">{%trans "Skills"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block bPlace%}
+<a class="dcard x1" href='{{url.here}}/place{{xCity}}'>
+ <div class="statistic teal">
+  <div class="label"><i class="fs20 mRa5 sf-pin"></i></div>
+  <div class="label mT10">{%trans "Agent Place"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block bAssessmentitem%}
+<a class="dcard x1" href='{{url.here}}/assessmentitem{{xCity}}'>
+ <div class="statistic teal">
+  <div class="label"><i class="fs20 mRa5 sf-lamp"></i></div>
+  <div class="label mT10">{%trans "Assessment Item"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block bServant%}
+<a class="dcard x2" href='{{url.here}}/servant{{xCity}}'>
+ <div class="statistic">
+  <div class="label"><i class="fs20 mRa5 sf-user"></i></div>
+  <div class="label mT10">{%trans "Servant"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block bServantSort%}
+<a class="dcard x2" href='{{url.here}}/servant/sortlist{{xCity}}'>
+ <div class="statistic">
+  <div class="label"><i class="fs20 mRa5 sf-list"></i></div>
+  <div class="label mT10">لیست نوبت مبلغین</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block bSend%}
+<a class="dcard x2" href='{{url.here}}/send{{xCity}}'>
+ <div class="statistic">
+  <div class="label"><i class="fs20 mRa5 sf-out"></i></div>
+  <div class="label mT10">{%trans "Dispathc servant"%}</div>
+ </div>
+</a>
+{%endblock%}

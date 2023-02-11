@@ -1,0 +1,122 @@
+{%if false%}
+<a href="{{url.kingdom}}/donate?nazr=flood" class="roundedBox block mB10">
+  <img class="block" src="{{url.static}}/images/homepage-v3/donate/iran-flood-donate.jpg" alt="کمک نقدی به سیل زدگان">
+</a>
+{%endif%}
+
+{%set lastPostsDonateRecord = posts({"limit" : 5, "special" : "donate"})%}
+
+{%if lastPostsDonateRecord%}
+<section>
+  <div class="f donateLine">
+  {%for key, value in lastPostsDonateRecord%}
+    <div class="c mB10">
+      <a href="{{value.link}}">
+        <img src="{%if value.file.main%}{{value.file.main}}{%else%}{{defaultImage}}{%endif%}" alt="{{value.title}}">
+      </a>
+    </div>
+  {%endfor%}
+  </div>
+</section>
+{%endif%}
+
+  <div class="f">
+    <div class="c12">
+
+
+{%set lastPostsSpecialRecord = posts({"limit" : 5, "special" : "slider"})%}
+{%set defaultImage  = url.site ~ "/static/images/homepage-v2/news-haram.jpg" %}
+<section>
+
+{%if lastPostsSpecialRecord%}
+  <div class="f roundedBox topNews">
+  {%for key, value in lastPostsSpecialRecord%}
+{%if key == 0 or key == 1%}
+    <div class="c6 m6 s12 pRa10 mB10">
+      <a class="ovelay" href="{{value.link}}">
+        <figure>
+          <img src="{%if value.file.normal%}{{value.file.normal}}{%else%}{{defaultImage}}{%endif%}" alt="{{value.title}}">
+          <figcaption>
+            <h2>{{value.title}}</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </div>
+{%else%}
+
+    <div class="c4 m4 s12 pRa10 mB10">
+      <a class="ovelay" href="{{value.link}}">
+        <figure>
+          <img src="{%if value.file.normal%}{{value.file.normal}}{%else%}{{defaultImage}}{%endif%}" alt="{{value.title}}">
+          <figcaption>
+            <h2>{{value.title}}</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </div>
+{%endif%}
+
+  {%endfor%}
+  </div>
+{%endif%}
+
+</section>
+
+
+{%if false%}
+      <div class="slider slider-pro goldenB" id='topSlider'>
+{%set topSliderPostsID = [] %}
+{%set topSliderPosts = posts({"limit" : 5, "special" : "slider"})%}
+
+{%set defaultImageTop = url.site ~ "/static/images/homepage-v2/news-haram.jpg" %}
+        <div class="sp-slides">
+{%if topSliderPosts %}
+{%for key, myNews in topSliderPosts%}
+{%set topSliderPostsID = topSliderPostsID | merge([myNews.id]) %}
+          <div class="sp-slide">
+            <img class="sp-image" src="{%if myNews.meta.thumb%}{{myNews.meta.thumb}}{%else%}{{defaultImageTop}}{%endif%}" alt="{{myNews.title}}">
+
+            <h3 class="sp-layer sp-black sp-padding" data-position="topRight" data-horizontal="10" data-vertical="5%" data-show-transition="down" data-hide-transition="right">
+              <a href="{{url.here}}/{{myNews.url}}">{{myNews.title}}</a>
+            </h3>
+
+            <p class="sp-layer sp-black sp-padding s0" data-position="bottomRight" data-vertical="10" data-horizontal="2%" data-width="96%" data-show-transition="up" data-show-delay="400" data-hide-transition="down">{{myNews.excerpt}}</p>
+          </div>
+{%endfor%}
+{%else%}
+          <div class="sp-slide">
+            <img class="sp-image" src="{{defaultImageTop}}" alt="{{site.title}}">
+          </div>
+{%endif%}
+        </div>
+      </div>
+
+
+        <a href="{{url.kingdom}}/arbaeen98" ><img src="{{url.site}}/static/images/app/karbala201909.jpg"></a>
+{%endif%}
+    </div>
+
+
+    <section class="c12">
+{%set lastPostsPromotionRecord = posts({"limit" : 4, "special" : "promotion"})%}
+
+{%if lastPostsPromotionRecord%}
+  <div class="f roundedBox promotion">
+  {%for key, value in lastPostsPromotionRecord%}
+    <div class="c3 s6 pRa10 mB10">
+      <a class="ovelay" href="{{value.link}}">
+        <figure>
+          <img src="{%if value.file.normal%}{{value.file.normal}}{%else%}{{defaultImage}}{%endif%}" alt="{{value.title}}">
+          <figcaption class="hide">
+            <h2>{{value.title}}</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </div>
+  {%endfor%}
+  </div>
+{%endif%}
+
+    </section>
+
+  </div>

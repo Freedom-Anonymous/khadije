@@ -1,0 +1,96 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+{%include 'content_agent/servant/pageStep.html'%}
+
+  <div class="justify-center f">
+   <form method="post" class="c5 m6 s12" autocomplete="off">
+    <div class="cbox">
+     {{block('iMemberList')}}
+
+     {{block('iJob')}}
+     {{block('iStatus')}}
+     {{block('iedit')}}
+
+
+
+    </div>
+   </form>
+  </div>
+{%endblock%}
+
+
+
+{%block iStatus%}
+<div class="mT15">
+ <label >{%trans "Status of place"%}</label>
+
+ <div class="radio1 green">
+  <input type="radio" id="r-enable" name="status" value="enable" {%if dataRow.status == 'enable' or not dataRow.status %} checked{%endif%}>
+  <label for="r-enable">{%trans "Enable"%}</label>
+ </div>
+
+
+ <div class="radio1 black mB25">
+  <input type="radio" id="r-disable" name="status" value="disable" {%if dataRow.status == 'disable'%} checked{%endif%} >
+  <label for="r-disable">{%trans "Disable"%}</label>
+ </div>
+</div>
+{%endblock%}
+
+
+{%block iMemberList%}
+<div class="msg">
+  <img src="{{dataRow.avatar}}" class="avatar">
+{{dataRow.displayname}}
+<div class="badge primary">{{dataRow.mobile | fitNumber('mobile')}}</div>
+</div>
+{%endblock%}
+
+
+
+{%block iCity%}
+<div class="pRa5">
+  <label for="city">{%trans "City"%}</label>
+  <select name="city" class="ui dropdown select">
+    <option value="" readonly>{%trans "For all city"%}</option>
+    <option value="qom" {%if dataRow.city == 'qom'  %}selected {%endif%}>{%trans "Qom"%}</option>
+    <option value="mashhad" {%if dataRow.city == 'mashhad'  %}selected {%endif%}>{%trans "Mashhad"%}</option>
+    <option value="karbala" {%if dataRow.city == 'karbala'  %}selected {%endif%}>{%trans "Karbala"%}</option>
+  </select>
+</div>
+{%endblock%}
+
+
+{%block iJob%}
+<div class="pRa5">
+  <label for="job">{%trans "Job"%}</label>
+  <select name="job" class="ui dropdown select">
+   <option value="" >{%trans "Please select one item"%}</option>
+    <option value="clergy" {%if dataRow.job == 'clergy'  %}selected {%endif%}>روحانی کاروان</option>
+    <option value="adminoffice" {%if dataRow.job == 'adminoffice'  %}selected {%endif%}>مدیر زائرسرا</option>
+    <option value="admin" {%if dataRow.job == 'admin'  %}selected {%endif%}>مدیر کاروان</option>
+    <option value="missionary" {%if dataRow.job == 'missionary'  %}selected {%endif%}>مبلغ</option>
+    <option value="servant" {%if dataRow.job == 'servant'  %}selected {%endif%}>نگهبان</option>
+    <option value="maddah" {%if dataRow.job == 'maddah'  %}selected {%endif%}>مداح</option>
+    <option value="rabet" {%if dataRow.job == 'rabet'  %}selected {%endif%}>رابط</option>
+    <option value="nazer" {%if dataRow.job == 'nazer'  %}selected {%endif%}>ناظر</option>
+    <option value="khadem" {%if dataRow.job == 'khadem'  %}selected {%endif%}>خادم</option>
+
+
+  </select>
+</div>
+{%endblock%}
+
+
+
+
+{%block iedit%}
+<div class="f">
+  <div class="c mRa5"><button class="btn primary block mT20">{%trans "Edit"%}</button></div>
+  <div class="cauto"><div data-confirm data-data='{"type": "remove"}' class="btn danger  mT20">{%trans "Remove"%}</div></div>
+</div>
+
+{%endblock%}
+

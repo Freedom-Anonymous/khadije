@@ -1,0 +1,47 @@
+{%extends display.festivalAdd%}
+
+
+{%block pageContent%}
+
+{{block('pageSteps')}}
+
+<div class="f justify-center">
+	<div class="c8">
+		<div class="cbox">
+			<form method="post" autocomplete="off">
+
+				{{block('iaddress')}}
+					<div class="input">
+						<label for="maplink">{%trans "Map link" %}</label>
+						<input type="text" class="ltr" name="maplink" id="maplink" placeholder='{%trans "Length"%} {%trans "For example"%} 34.6499475' value="{{dataRow.address.maplink}}">
+					</div>
+				{%if false%}
+				<div class="f">
+					<div class="c">
+						<div class="input">
+							<label for="length">{%trans "Length" %}</label>
+							<input type="text" class="ltr" name="length" id="length" placeholder='{%trans "Length"%} {%trans "For example"%} 34.6499475' value="{{dataRow.address.length}}">
+						</div>
+					</div>
+					<div class="c mLa5">
+						<div class="input">
+							<label for="width">{%trans "Width" %}</label>
+							<input type="text" class="ltr" name="width" id="width" placeholder='{%trans "Length"%} {%trans "For example"%} 50.8768872' value="{{dataRow.address.width}}">
+						</div>
+					</div>
+				</div>
+
+				{%if dataRow.address.width and dataRow.address.length%}
+					<a class="btn success2 block txtC mT10 " href="http://maps.google.com/maps?z=15&t=m&q=loc:{{dataRow.address.width}}+{{dataRow.address.length}}" target="_blank" >
+						<i class="sf-pin "></i>{%trans "Load in map"%}
+					</a>
+				{%endif%}
+				{%endif%}
+
+				{{block('isave')}}
+			</form>
+		</div>
+	</div>
+</div>
+{%endblock%}
+

@@ -1,0 +1,164 @@
+{%extends 'content_lottery/layout.html'%}
+
+
+
+{%block pageContent%}
+
+{%include 'content_lottery/user/nav.html'%}
+{%if dataTable%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+  {{block('htmlFilter')}}
+
+ {%else%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+
+ {%endif%}
+{%else%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlFilterNoResult')}}
+
+ {%else%}
+
+  {{block('htmlStartAddNew')}}
+
+ {%endif%}
+{%endif%}
+
+{%endblock%}
+
+
+
+
+{%block htmlSearchBox%}
+<div class="cbox fs12">
+  <form method="get" action='{{url.this}}' data-action>
+    <input type="hidden" name="lid" value="{{requestGET.lid}}">
+    <div class="input">
+      <input type="search" name="q" placeholder='{%trans "Search"%}' id="q" value="{{requestGET.q}}" autofocus  data-pass='submit' autocomplete='off'>
+      <button class="addon btn ">{%trans "Search" %}</button>
+
+      {%if false and perm('exportKarbalaUsers') and perm_su() %}
+        <button data-timeout=0 data-confirm data-data='{"export": 1}' class="btn addon primary">{%trans "Export"%}</button>
+      {%endif%}
+    </div>
+  </form>
+</div>
+
+{%endblock%}
+
+
+
+
+{%block htmlTable%}
+<div class="tblBox">
+
+  <table class="tbl1 v1">
+    <thead class="primary fs09">
+      <tr>
+        <th>#</th>
+        <th>{%trans "Mobile"%}</th>
+        <th>{%trans "Firstname"%}</th>
+        <th>{%trans "Lastname"%}</th>
+        <th>{%trans "Nationalcode"%}</th>
+        <th>{%trans "Gender"%}</th>
+        {%if myLotteryRequired.father%}<th>{%trans "Father"%}</th>{%endif%}
+        {%if myLotteryRequired.marital%}<th>{%trans "Married"%}</th>{%endif%}
+        {%if myLotteryRequired.birthdate %}<th>{%trans "Birthday"%}</th>{%endif%}
+        {%if myLotteryRequired.city%}<th>{%trans "Province"%}</th>{%endif%}
+        {%if myLotteryRequired.city%}<th>{%trans "City"%}</th>{%endif%}
+        {%if myLotteryRequired.address%}<th>{%trans "Address"%}</th>{%endif%}
+        {%if myLotteryRequired.phone%}<th>{%trans "Phone"%}</th>{%endif%}
+        {%if myLotteryRequired.education%}<th>{%trans "Education"%}</th>{%endif%}
+        {%if myLotteryRequired.videofile%}<th>{%trans "Video file"%}</th>{%endif%}
+        {%if myLotteryRequired.imagefile%}<th>{%trans "Image file"%}</th>{%endif%}
+        {%if myLotteryRequired.desc%}<th>{%trans "Description"%}</th>{%endif%}
+
+        <th>{%trans "Date created"%}</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {%for key, value in dataTable%}
+      <tr {%if value.status=='disable' or value.status=='removed' or value.status=='filter' or value.status=='unreachable'%} class='negative' {%elseif value.status=='awaiting'%} class='warning' {%endif%}>
+        <td>{{value.id | fitNumber}}</td>
+        <td>{{value.mobile | fitNumber('mobile')}}</td>
+        <td>{{value.firstname}}</td>
+        <td>{{value.lastname}}</td>
+        <td>{{value.nationalcode | fitNumber(false)}}</td>
+        <td>{%set mygender = value.gender | capitalize%}{%trans mygender%}</td>
+
+{%if myLotteryRequired.father%}<td>{{value.father}}</td>{%endif%}
+{%if myLotteryRequired.marital%}<td>{%set mymarried = value.married | capitalize%}{%trans mymarried%}</td>{%endif%}
+{%if myLotteryRequired.birthdate %}<td>{{value.birthday | dt(true)}}</td>{%endif%}
+{%if myLotteryRequired.city%}<td>{{value.province_name}}</td>{%endif%}
+{%if myLotteryRequired.city%}<td>{{value.city_name}}</td>{%endif%}
+{%if myLotteryRequired.address%}<td>{{value.homeaddress}}</td>{%endif%}
+{%if myLotteryRequired.phone%}<td>{{value.phone | fitNumber(false)}}</td>{%endif%}
+
+{%if myLotteryRequired.education%}<td>{{value.homeaddress}}</td>{%endif%}
+{%if myLotteryRequired.videofile%}
+  <td>
+    {%set myField = ['videofile1', 'videofile2', 'videofile3', 'videofile4', 'videofile5']%}
+    {%for k,v in myField%}
+      {%if value[v]%}
+        <a href="{{value[v]}}" target="_blank" data-direct class="btn primary2 xs mA5">{%trans "Show"%}</a>
+      {%endif%}
+    {%endfor%}
+  </td>
+{%endif%}
+{%if myLotteryRequired.imagefile%}
+
+      <td>
+    {%set myField = ['imagefile1', 'imagefile2', 'imagefile3', 'imagefile4', 'imagefile5']%}
+    {%for k,v in myField%}
+      {%if value[v]%}
+        <a href="{{value[v]}}" target="_blank" data-direct class="btn primary2 xs mA5">{%trans "Show"%}</a>
+      {%endif%}
+    {%endfor%}
+
+  </td>
+
+{%endif%}
+{%if myLotteryRequired.desc%}<td>{{value.desc}}</td>{%endif%}
+
+        <td>{{value.datecreated | dt(true) }}</td>
+
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+  {%include display.pagination%}
+
+{%endblock%}
+
+
+{%block htmlFilter%}
+<p class="f fs14 msg warn2">
+  <span class="c">{{dataFilter | raw}}</span>
+  <a class="cauto" href="{{url.this}}{{xLidStart}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlFilterNoResult%}
+<p class="f fs14 msg warn2">
+  <span class="c">{%trans "Result not found!"%} {%trans "Search with new keywords."%}</span>
+  <a class="cauto" href="{{url.this}}{{xLidStart}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlStartAddNew%}
+<p class="fs14 msg success2 pTB20">{%trans "Nobody signuped!"%} </p>
+{%endblock%}
+
+
+

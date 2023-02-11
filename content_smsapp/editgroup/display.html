@@ -1,0 +1,209 @@
+{%extends 'content_smsapp/addgroup/display.html'%}
+
+
+
+{%block pageContent%}
+{%if blockMode%}
+{{block('BlockGroup')}}
+{%elseif secretMode%}
+{{block('BlockGroup')}}
+{%else%}
+{{block('NormalGroup')}}
+{%endif%}
+
+{%endblock%}
+
+
+
+{%block BlockGroup%}
+<div class="f justify-center">
+  <div class="c6 m8 s12">
+    <div class="cbox">
+      {%if blockMode%}
+        <div class="msg danger2">{%trans "Manage Block group"%}</div>
+      {%elseif secretMode%}
+        <div class="msg info2">{%trans "Manage Secret group"%}</div>
+      {%endif%}
+      <form method="post" autocomplete="off" class="mB10">
+        <input type="hidden" name="setblock" value="1">
+          <div class="input">
+            <input type="tel" name="abn" id="abn" placeholder='{%trans "Add number to this group"%}'  maxlength="50">
+            <button class="btn addon primary">{%trans "Add"%}</button>
+          </div>
+      </form>
+        {%for key, value in myNumbers%}
+        <div class="msg f pA5-f">
+          <div class="cauto"><b class="txtB">{{value.number | fitNumber(false)}}</b></div>
+          <div class="c"></div>
+          <div class="cauto"><div data-ajaxify data-method='post' data-data='{"removeanswer": "{{value.id}}" {{platoonGetJson}}}'><i class="sf-times fc-red"></i></div></div>
+        </div>
+        {%endfor%}
+    </div>
+  </div>
+</div>
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%block NormalGroup%}
+
+<div class="f justify-center">
+
+  <div class="c12 m8 s12 x8">
+    <div class="cbox">
+      <form method="post" autocomplete="off">
+        {{block('ititle')}}
+          {{block('isort')}}
+            <label for="tag">{%trans "Start date for detect answer"%} </label>
+           <div class="input ltr">
+            <input class="datepicker" type="text" name="calcdate"  placeholder='{%trans "Start date"%}' id="calcdate"  value="{{dataRow.calcdate}}" maxlength='20' data-view="day">
+          </div>
+          {{block('itag')}}
+          {{block('istatus')}}
+          <div class="mB20"></div>
+           <div class="f">
+            <div class="cauto">
+              {%if stringTagList%}
+                <div class="btn secondary2 outline" data-ajaxify data-data='{"analyze":"group"}' data-method='post'>آنالیز همه پیامک‌های پاسخ داده نشده با فیلتر این گروه</div>
+                {%endif%}
+            </div>
+            <div class="c"></div>
+            <div class="cauto">
+              <button class="btn primary">{%trans "Update"%}</button>
+            </div>
+           </div>
+      </form>
+    </div>
+
+    <div class="cbox">
+      <form method="post" autocomplete="off">
+        <input type="hidden" name="setanswer" value="1">
+        <label for="itxt">{%trans "Answer text"%} <small class="fc-red">* {%trans "Require"%}</small></label>
+        <textarea class="txt mB10" rows="5" name="text" required autofocus id="itxt">{{answerDataRow.text}}</textarea>
+        <div class="mT0-f mB10 fc-mute">اگر در متن پاسخ عبارت :name: وجود داشته باشد در هنگام پاسخ نام شخص جایگزین این عبارت خواهد شد.</div>
+        <label for="asort">{%trans "Sort"%} </label>
+        <div class="input">
+          <input type="tel" name="asort" id="asort" value="{{myLastSort}}"  maxlength="10">
+        </div>
+           <div class="txtL">
+            {%if answerDataRow%}
+              <button class="btn primary">{%trans "Edit"%}</button>
+            {%else%}
+              <button class="btn success">{%trans "Add"%}</button>
+            {%endif%}
+           </div>
+      </form>
+    </div>
+
+    {%if answerList%}
+    <div class="cbox">
+      {%for key, value in answerList%}
+        <div class="msg {%if value.id == requestGET.aid%} primary2 {%endif%}">
+
+          <p>
+            <b class="badge info2 rounded">{{(key + 1) |fitNumber(false)}}</b>
+          {{value.text |raw | nl2br}}
+        </p>
+          <div class="f">
+            <div class="cauto"><div class="fc-red" data-confirm data-data='{"removeanswer": "{{value.id}}"}'>{%trans "Remove"%}</div></div>
+            <div class="c"></div>
+            <div class="cauto"><b class="badge primary2 rounded">{%trans "Sort"%} {{value.sort |fitNumber(false)}}</b></div>
+            <div class="c"></div>
+            <div class="cauto"><b class="badge secondary2 rounded">{%trans "Count sms"%} {{((value.text | length ) / 70) | round(0, 'ceil') |fitNumber(false)}}</b></div>
+            <div class="c"></div>
+            <div class="cauto">
+              {%if value.id == requestGET.aid%}
+                <i>{%trans "Editing ..."%}</i>
+              {%else%}
+                <a class="" href="{{url.this}}?id={{requestGET.id}}&aid={{value.id}}{{platoonGetAnd}}">{%trans "Edit"%}</a>
+              {%endif%}
+              </div>
+          </div>
+        </div>
+      {%endfor%}
+    </div>
+    {%endif%}
+
+
+  </div>
+</div>
+{%endblock%}
+
+
+
+
+{%block isort %}
+<label for="sort">{%trans "Sort"%} </label>
+<div class="input">
+  <input type="tel" name="sort" id="sort" value="{{dataRow.sort}}"  maxlength="10">
+</div>
+{% endblock %}
+
+
+
+{%block istatus%}
+
+<div class="mT3">
+ <label >{%trans "Status"%}</label>
+
+<div class="f">
+  <div class="c2 m2 s4">
+     <div class="radio1 green">
+      <input type="radio" id="r-enable" name="status" value="enable" {%if dataRow.status == 'enable' or not dataRow.status %} checked{%endif%}>
+      <label for="r-enable">{%trans "Enable"%}</label>
+     </div>
+
+  </div>
+  <div class="c2 m2 s4">
+     <div class="radio1 yellow ">
+      <input type="radio" id="r-disable" name="status" value="disable" {%if dataRow.status == 'disable'  %} checked{%endif%}>
+      <label for="r-disable">{%trans "Disable"%}</label>
+     </div>
+  </div>
+  <div class="c2 m2 s4">
+     <div class="radio1 red">
+      <input type="radio" id="r-deleted" name="status" value="deleted" {%if dataRow.status == 'deleted'  %} checked{%endif%}>
+      <label for="r-deleted">{%trans "Deleted"%}</label>
+     </div>
+  </div>
+</div>
+
+
+
+</div>
+{%endblock%}
+
+
+
+
+{%block itag %}
+<label for="tag">{%trans "Tags"%} </label>
+
+  <div class="tagDetector">
+   <div class="input mB10 hide">
+      <input type="text" class="input tagVals" id="tag" name="tag" value="{{stringTagList}}" id="tagValues" placeholder='{%trans "Tag"%}'>
+    </div>
+
+    <div class="input" title='{%trans "Add tag manually to link tickets togethers"%}'>
+      <input type="text"  class="tagInput" placeholder='{%trans "Tag keywords..."%}'>
+      <button class="addon tagAdd">+</button>
+    </div>
+    <div class="tagBox"></div>
+  </div>
+
+
+
+{% endblock %}

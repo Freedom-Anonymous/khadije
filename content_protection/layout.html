@@ -1,0 +1,76 @@
+{%extends display.dash%}
+
+{%block sidenav%}
+
+  <li class="txtB"><a href="{{url.here}}">{%trans "Dashboard"%}</a></li>
+
+  <li class="hr"></li>
+  <li><a href="{{url.here}}/occasion">{% trans "Occasion list" %}</a></li>
+  <li><a href="{{url.here}}/protectagent">{% trans "Protect agent" %}</a></li>
+
+  {%if perm('protectonSetting')%}
+  <li class="hr"></li>
+  <li><a href="{{url.here}}/setting">{% trans "Setting" %}</a></li>
+  {%endif%}
+
+
+{%endblock%}
+
+
+
+
+{%block occasionDetailHtml%}
+<div class="msg primary2 fs14">
+	<div class="f">
+		<div class="c">{{occasionDetail.title}}</div>
+		<div class="c">{{occasionDetail.subtitle}}</div>
+    {%if url.child == 'detail' or url.child == 'score'%}
+    {%else%}
+      {%if url.child != 'agent'%}
+      <div class="cauto"><a class="btn primary" href="{{url.this}}/agent?id={{occasionDetail.id}}">{%trans "Agent registered"%}</a></div>
+      {%endif%}
+
+      {%if url.child != 'user'%}
+      <div class="cauto"><a class="btn info" href="{{url.this}}/user?id={{occasionDetail.id}}">{%trans "Users registered"%}</a></div>
+      {%endif%}
+    {%endif%}
+
+	</div>
+</div>
+{%endblock%}
+
+
+
+
+
+{%block settingPageStep%}
+
+<div class="f">
+  <div class="c s4">
+    <a class="dcard {%if url.module == 'setting'%}active{%endif%}" href='{{url.here}}/setting'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-list"></i></div>
+        <div class="label">{%trans "Occasion target"%}</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="c s4">
+    <a class="dcard {%if url.module == 'agenttype'%}active{%endif%}" href='{{url.here}}/agenttype'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-user-5"></i></div>
+        <div class="label">{%trans "Agent type"%}</div>
+      </div>
+    </a>
+  </div>
+
+    <div class="c s4">
+    <a class="dcard {%if url.module == 'occasiontype'%}active{%endif%}" href='{{url.here}}/occasiontype'>
+      <div class="statistic sm">
+        <div class="value mB10"><i class="sf-atom"></i></div>
+        <div class="label">{%trans "Occasion type"%}</div>
+      </div>
+    </a>
+  </div>
+</div>
+{%endblock%}

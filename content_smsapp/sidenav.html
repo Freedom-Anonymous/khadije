@@ -1,0 +1,18 @@
+  {%if requestGET.platoon%}
+  {%if platoonList | length > 1%}
+  <li><a href="{{url.here}}"><img class="avatar" src="{{platoonCurrentDetail.avatar}}"> <span class="txtB mLa5">{{platoonCurrentDetail.title}}</span> <i class='sf-exchange floatL'></i></a></li>
+  <hr>
+  {%endif%}
+
+  <li><a href="{{url.here}}{{platoonGet}}"><i class='sf-mail'></i> <span>{% trans "Manage sms" %}</span></a></li>
+
+  <li><a href="{{url.here}}/settings{{platoonGet}}"><i class='sf-cog'></i> <span>{% trans "Setting" %}</span></a></li>
+
+{%if perm_su() %}
+  <li><a href="{{url.here}}/listsms{{platoonGet}}"><i class='sf-wheelchair'></i> <span>{% trans "Old SMS List" %}</span></a></li>
+  <li><a href="{{url.here}}/dashboard{{platoonGet}}"><i class='sf-fog-moon'></i> <span>{% trans "Old Dashboard" %}</span></a></li>
+{%endif%}
+
+
+  <li><a href="{{url.here}}/report{{platoonGet}}"><i class='sf-chart'></i> <span>{% trans "Reports" %}</span></a></li>
+  {%endif%}

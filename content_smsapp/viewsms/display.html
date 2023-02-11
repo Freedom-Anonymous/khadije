@@ -1,0 +1,244 @@
+{%extends 'content_smsapp/layout.html'%}
+
+
+{%block changeStatus%}
+{%if perm_su() and false%}
+  <div class="msg mL10">
+    <form method="post">
+      <input type="hidden" name="changeStatus" value="receivestatus">
+      <label for="receivestatus">{%trans "Reseive status"%}</label>
+      <select name="receivestatus" class="select ui dropdown search mB10" id="receivestatus">
+      <option value="" readonly>{%trans "Please select one item"%} *</option>
+        <option value="block" {%if dataRow.receivestatus == 'block' %} selected {%endif%}>{%trans "block"%}</option>
+        <option value="awaiting" {%if dataRow.receivestatus == 'awaiting' %} selected {%endif%}>{%trans "awaiting"%}</option>
+        <option value="analyze" {%if dataRow.receivestatus == 'analyze' %} selected {%endif%}>{%trans "analyze"%}</option>
+        <option value="answerready" {%if dataRow.receivestatus == 'answerready' %} selected {%endif%}>{%trans "answerready"%}</option>
+        <option value="skip" {%if dataRow.receivestatus == 'skip' %} selected {%endif%}>{%trans "skip"%}</option>
+      </select>
+      <button class="btn">{%trans "Save"%}</button>
+    </form>
+  </div>
+
+  <div class="msg mL10">
+    <form method="post">
+      <input type="hidden" name="changeStatus" value="sendstatus">
+      <label for="sendstatus">{%trans "Send status"%}</label>
+      <select name="sendstatus" class="select ui dropdown search mB10" id="sendstatus">
+      <option value="" readonly>{%trans "Please select one item"%} *</option>
+        <option value="awaiting" {%if dataRow.sendstatus == 'awaiting' %} selected {%endif%}>{%trans "awaiting"%}</option>
+        <option value="sendtodevice" {%if dataRow.sendstatus == 'sendtodevice' %} selected {%endif%}>{%trans "sendtodevice"%}</option>
+        <option value="send" {%if dataRow.sendstatus == 'send' %} selected {%endif%}>{%trans "send"%}</option>
+        <option value="deliver" {%if dataRow.sendstatus == 'deliver' %} selected {%endif%}>{%trans "deliver"%}</option>
+      </select>
+      <button class="btn">{%trans "Save"%}</button>
+    </form>
+  </div>
+{%endif%}
+{%endblock%}
+
+{%block pageContent%}
+
+<div class="f">
+  <div class="c6">
+    <div class="dcard x1">{%trans "From number"%} <b>{{dataRow.fromnumber | fitNumber(false)}}</b>
+    {%if countSmsFromThis %}
+    <br>
+      <small>{%trans "All sms from this number"%} <b>{{countSmsFromThis | fitNumber}}</b> {%trans "Sms"%}
+        <a  class="badge primary" href="{{url.here}}/listsms?fromnumber={{dataRow.fromnumber}}">{%trans "Show"%}</a>
+      </small>
+    {%endif%}
+    </div>
+  </div>
+  <div class="c6">
+    <div class="dcard x1">{%trans "togateway"%} <b>{{dataRow.togateway | fitNumber(false)}}</b></div>
+  </div>
+</div>
+
+<div class="f fs08">
+  <div class="c3 s6">
+    <div class="dcard x07">
+      <div class="value">{{dataRow.date | dt(false)}}</div>
+      <div class="label">{%trans "date"%} </div>
+    </div>
+  </div>
+  <div class="c3 s6">
+    <div class="dcard x07">
+       <div class="value">{{dataRow.datereceive | dt(false)}}</div>
+      <div class="label">{%trans "Date receive"%}</div>
+    </div>
+  </div>
+  <div class="c3 s6">
+    <div class="dcard x07">
+       <div class="value">{{dataRow.dateanswer | dt(false)}}</div>
+      <div class="label">{%trans "Date answer"%}</div>
+    </div>
+  </div>
+  <div class="c3 s6">
+    <div class="dcard x07">
+       <div class="value">{{dataRow.datesend | dt(false)}}</div>
+      <div class="label">{%trans "Date send"%}</div>
+    </div>
+  </div>
+</div>
+
+<div class="f">
+  <div class="c6">
+    <div class="dcard x07">
+      <div class="value">{{dataRow.treceivestatus}}</div>
+      <div class="label">{%trans "Reseive status"%} </div>
+    </div>
+  </div>
+  <div class="c6">
+    <div class="dcard x07">
+      <div class="value">{%set mydataRowsendstatus = dataRow.sendstatus%}{%trans mydataRowsendstatus%}</div>
+      <div class="label">{%trans "Send status"%} </div>
+    </div>
+  </div>
+</div>
+
+<div class="msg info2 fs14">
+  {% if dataRow.brand%}<span class="badge light mA5">{%trans "Brand"%} <b>{{dataRow.brand}}</b></span>{%endif%}
+  {% if dataRow.model%}<span class="badge light mA5">{%trans "Model"%} <b>{{dataRow.model}}</b></span>{%endif%}
+  {% if dataRow.simcartserial%}<span class="badge light mA5">{%trans "Simcart serial"%} <b>{{dataRow.simcartserial}}</b></span>{%endif%}
+  {% if dataRow.smsmessageid%}<span class="badge light mA5">{%trans "sms message id"%} <b>{{dataRow.smsmessageid}}</b></span>{%endif%}
+  {% if dataRow.userdata%}<span class="badge light mA5">{%trans "user data"%} <b>{{dataRow.userdata}}</b></span>{%endif%}
+
+</div>
+
+
+<div class="f justify-center">
+
+  <div class="c5 s12 pRa10">
+    <div class="cbox">
+      <h4>{%trans "Sms text"%} <small class="floatRa">{{dataRow.text | length | fitNumber}} {%trans "Character"%}</small></h4>
+      <p>{{dataRow.text | raw | nl2br}}</p>
+    </div>
+    <div class="c8 s12">
+      {{block('changeStatus')}}
+    </div>
+  </div>
+  <div class="c7 s12">
+    <div class="cbox">
+      <form method="post" autocomplete="off" {%if dataRow.answertext %} disabled {%endif%}>
+
+        {%if dataRow.recommend_id%}
+        <div class="msg pain fs12 txtB txtC mB20">{%trans "Recommend"%} {{dataRow.recommend_title}}</div>
+        {%endif%}
+       <div class="f mB10">
+        {%for key,value in groupList%}
+          <div class="c">
+            <div class="radio3 mB5 mRa5" >
+              <input {%if dataRow.answertext %} disabled {%endif%} type="radio" name="group_id" value="{{value.id}}" id="group_{{value.id}}" {%if dataRow.group_id == value.id or (not dataRow.group_id and not value.id)  %} checked {%endif%} onclick="clearAnswerTxt(this);">
+              <label for="group_{{value.id}}">{{value.title}}</label>
+            </div>
+          </div>
+        {%endfor%}
+        </div>
+
+        {%for group_id, answers in dataAnswer%}
+        <div data-response='group_id' data-response-effect='slide' data-response-where='{{group_id}}' data-response-hide>
+          {%for key, value in answers %}
+          <div class="btn outline primary mA5" onclick="setAnswerText('{{value.text  | url_encode}}');">{{value.text}}</div>
+          {%endfor%}
+        </div>
+        {%endfor%}
+
+        <label for="itxt mT20">{%trans "Answer text"%}</label>
+        <textarea class="txt mB10" rows="5" name="answertext"  id="ianswertxt" {%if dataRow.answertext %} disabled {%endif%}>{{dataRow.answertext}}</textarea>
+        {{block('fromGatewayForm')}}
+        <div class="f mT20">
+          <div class="c">
+            <button class="btn block {%if dataRow.answertext %} disabled {%else%} success {%endif%}" {%if dataRow.answertext %} disabled {%endif%}>{%trans "Send"%}</button>
+          </div>
+          {%if not dataRow.answertext %}
+          <div class="cauto mLa5">
+            <div data-ajaxify data-data='{"skip" : "skip", "id": "{{dataRow.id}}"}' data-method='post' class="btn warn">{%trans "Skip"%}</div>
+          </div>
+          {%endif%}
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  function setAnswerText($_text)
+  {
+    $('#ianswertxt').val(decodeURIComponent($_text));
+  }
+  function clearAnswerTxt()
+  {
+    $('#ianswertxt').val('');
+  }
+</script>
+
+{%endblock%}
+
+
+
+{%block fromGatewayForm%}
+  <label for="fromgateway">{%trans "Send by gateway"%}</label>
+  <select name="fromgateway" class="select ui dropdown search mB10" id="fromgateway" {%if dataRow.answertext %} disabled {%endif%}>
+  <option value="" readonly>{%trans "Please select one item"%} *</option>
+    <option value="{{dataRow.togateway}}" {%if dataRow.fromgateway == dataRow.togateway or not dataRow.fromgateway%} selected {%endif%}>{{dataRow.togateway | fitNumber('mobile')}} <small>{%trans "From the sender"%}</small></option>
+    <option value="{{10006660066600}}" {%if dataRow.fromgateway == '10006660066600' %} selected {%endif%}>{{10006660066600 | fitNumber(false)}} <small>{%trans "From the sms panel"%}</small></option>
+
+  </select>
+
+{%endblock%}
+
+
+
+{%block pageContent2%}
+
+
+
+      <div class="msg">{%trans "fromgateway"%} {{dataRow.fromgateway}}</div>
+      <span class="btn mRa5">{%trans "tonumber"%} {{dataRow.tonumber}}</span>
+
+
+
+<span class="btn mRa5">{%trans "sendstatus"%} {{dataRow.sendstatus}}</span>
+<span class="btn mRa5">{%trans "amount"%} {{dataRow.amount}}</span>
+<span class="btn mRa5">{%trans "answertext"%} {{dataRow.answertext}}</span>
+<span class="btn mRa5">{%trans "group_id"%} {{dataRow.group_id}}</span>
+<span class="btn mRa5">{%trans "recommend_id"%} {{dataRow.recommend_id}}</span>
+
+
+{%endblock%}
+
+
+
+
+
+
+{%block pageSteps%}
+
+  <div class="f">
+
+
+   <div class="c s4">
+    <a class="dcard {%if url.child == 'editgroup'%}active{%endif%}" href='{{url.this}}/editgroup?id={{requestGET.id}}' data-shortkey="49ctrlshift" '>
+     <div class="statistic sm">
+      <div class="value"><i class="sf-edit"></i></div>
+      <div class="label">{%trans "Edit"%}<br><kbd class="mT5">Ctrl+Shift+1</kbd></div>
+     </div>
+    </a>
+   </div>
+
+
+   <div class="c s4">
+    <a class="dcard {%if url.child == 'filtergroup'%}active{%endif%}" href='{{url.this}}/filtergroup?id={{requestGET.id}}' data-shortkey="50ctrlshift" >
+     <div class="statistic sm">
+      <div class="value"><i class="sf-list"></i></div>
+      <div class="label">{%trans "Filters of this group"%}<br><kbd class="mT5">Ctrl+Shift+2</kbd></div>
+     </div>
+    </a>
+   </div>
+
+
+
+
+  </div>
+{%endblock%}

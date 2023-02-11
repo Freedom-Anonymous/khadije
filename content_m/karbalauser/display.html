@@ -1,0 +1,85 @@
+{%extends 'content_m/layout.html'%}
+
+
+{%block pageContent%}
+<div class="f justify-center txtC">
+  <div class="c9 s12 fs14">
+    <div class="tblBox">
+
+      <table class="tbl1 v4">
+        <thead>
+          <tr>
+            <th>مشرف شده‌ها</th>
+            <th>کربلا</th>
+            <th>مشهد</th>
+            <th>قم</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for key, value in karbalauser.gone%}
+            <tr {%if key == 'مجموع'%} class="positive" {%endif%}>
+              <td>{{key}}</td>
+              <td>{%if value.karbala%}{{value.karbala | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if value.mashhad%}{{value.mashhad | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if value.qom%}{{value.qom | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+            </tr>
+
+          {%endfor%}
+
+        </tbody>
+      </table>
+
+      <table class="tbl1 v4">
+        <thead>
+          <tr>
+            <th>ثبت‌نامی</th>
+            <th>کربلا</th>
+            <th>مشهد</th>
+            <th>قم</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for key, value in karbalauser.signup%}
+            <tr {%if key == 'مجموع'%} class="positive" {%endif%}>
+              <td>{{key}}</td>
+              <td>{%if value.karbala%}{{value.karbala | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if value.mashhad%}{{value.mashhad | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if value.qom%}{{value.qom | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+            </tr>
+
+          {%endfor%}
+
+        </tbody>
+      </table>
+
+
+
+
+       <table class="tbl1 v10">
+        <thead>
+          <tr>
+            <th>چشم انتظاران</th>
+            <th>کربلا</th>
+            <th>مشهد</th>
+            <th>قم</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>-</td>
+              <td>{%if karbalauser.awaiting.karbala%}{{karbalauser.awaiting.karbala | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if karbalauser.awaiting.mashhad%}{{karbalauser.awaiting.mashhad | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+              <td>{%if karbalauser.awaiting.qom%}{{karbalauser.awaiting.qom | fitNumber}} <small>نفر</small>{%else%}-{%endif%}</td>
+            </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+
+    </div>
+  </div>
+
+</div>
+{%endblock%}
+

@@ -1,0 +1,61 @@
+{%extends display.admin%}
+{%use 'content_protection/agentoccasion/pageStep.html' %}
+
+{%block pageContent%}
+{{block ('pageStep')}}
+
+<form method="post" autocomplete="off">
+  <div class="f justify-center">
+    <div class="c6 s12 m8">
+       <div class="cbox">
+
+
+
+          <div class="msg">
+            {%trans "The number of people announced on this occasion"%}  <b>{{userListCount |fitNumber}}</b> <small>{%trans "Person"%}</small>
+            <a href="{{url.this}}/users?id={{requestGET.id}}">{%trans "View list"%}</a>
+          </div>
+
+
+        <div class="msg">
+            <div class="mB10">{%trans "Current request status"%} {%set myStatus = dataRow.status%}{%if myStatus == 'request'%}{%set myStatus = 'review'%}{%endif%}<b>{%trans myStatus%}</b></div>
+
+              <div class="f">
+                {%if dataRow.status == 'request' %}
+                  <div class="cauto">
+                      <div class="btn info outline" data-confirm data-data='{"changestatus": "changestatus", "status": "draft"}'>{%trans "Set as draft"%}</div>
+                  </div>
+                {%endif%}
+
+                {%if dataRow.status != 'request' %}
+                  <div class="cauto">
+                      <div class="btn pain outline" data-confirm data-data='{"changestatus": "changestatus", "status": "request"}'>{%trans "Set in queue"%}</div>
+                  </div>
+                {%endif%}
+
+                <div class="cauto">
+                  <div class="mLa5">
+                    <div class="btn danger block {%if dataRow.status == 'reject' %}{%else%}outline{%endif%}" data-confirm data-data='{"changestatus": "changestatus", "status": "reject"}'>{%trans "Reject request"%}</div>
+                  </div>
+                </div>
+
+
+
+                <div class="c">
+                  <div class="mLa5">
+                    <div class="btn success block {%if dataRow.status == 'accept' %}{%else%}outline{%endif%}" data-confirm data-data='{"changestatus": "changestatus", "status": "accept"}'>{%trans "Accept request"%}</div>
+                  </div>
+                </div>
+              </div>
+
+
+        </div>
+
+    </div>
+
+    </div>
+  </div>
+</form>
+
+
+{%endblock%}

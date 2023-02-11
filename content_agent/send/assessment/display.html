@@ -1,0 +1,68 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+{%include 'content_agent/send/pageStep.html'%}
+
+
+<div class="f justify-center">
+  <div class="c8 s12 m12">
+    <div class="cbox">
+
+      <div class="tblBox">
+
+        <table class="tbl1 v4">
+          <thead>
+            <tr>
+              <th colspan="2" class="collapsing">ارزیابی</th>
+
+              <th>امتیاز کسب شده</th>
+              <th>درصد</th>
+              <th class="collapsing">جزئیات</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {%for key ,value in assessmentList%}
+            <tr>
+               <td class="collapsing" rowspan="{{(value.list | length) +1}}"><b class="mLR10">{{value.title}}</b> از</td>
+            </tr>
+              {%for k, v in value.list%}
+                <tr>
+                  <td><b class="mLR10">{{v.job_for}}</b></td>
+                  <td>{%if v.data.score%}{{v.data.score | fitNumber}}{%else%}-{%endif%}</td>
+                  <td>{%if v.data.percent%}{{v.data.percent | fitNumber}}{%trans "%"%}{%else%}-{%endif%}</td>
+                  <td class="collapsing">
+                    {%if v.data.id%}
+                      <a class="btn success xs" href="{{url.this}}/assessmentadd?id={{requestGET.id}}&assessment_id={{v.data.id | coding('encode')}}{{xCityAnd}}">نمایش ارزیابی</a>
+                    {%else%}
+                      <a class="btn primary xs" href="{{url.this}}/assessmentadd?id={{requestGET.id}}&job={{v.ejob}}&forjob={{v.ejob_for}}{{xCityAnd}}">ثبت ارزیابی</a>
+                    {%endif%}
+                  </td>
+                </tr>
+              {%endfor%}
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+              {%if false%}
+                <tr>
+                  <td></td>
+                  <td colspan="2" >میانگین درصد کسب شده <b>17%</b></td>
+                  <td colspan="2" >مجموع امتیاز کسب شده <b>12</b></td>
+                </tr>
+              {%endif%}
+
+            {%endfor%}
+
+
+          </tbody>
+        </table>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+{%endblock%}

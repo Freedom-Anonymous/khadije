@@ -1,0 +1,32 @@
+{%extends 'content_lottery/item/layout.html'%}
+
+{%block pageContent%}
+{%include 'content_lottery/item/pageStep.html'%}
+  <div class="justify-center f">
+   <form method="post" class="c5 m6 s12" autocomplete="off">
+   	<div class="cbox">
+
+  {%if whoHavePerm%}
+
+  <h4>افرادی که می‌توانند به این قرعه‌کشی دسترسی داشته باشند <br><small>درصورتی که شخصی را انتخاب نکنید فقط شما می‌توانید به این قرعه‌کشی دسترسی داشته باشید</small></h4>
+
+  {%for key, value in whoHavePerm%}
+  <div class="switch1">
+   <input type="checkbox" name="perm_{{value.id}}" id="perm_{{value.id}}" {%if value.id in dataRow.permission%}checked{%endif%}>
+   <label for="perm_{{value.id}}"></label>
+   <label for="perm_{{value.id}}">{{value.firstname}} <b>{{value.lastname}}</b></label>
+  </div>
+     {{block('isave')}}
+  {%endfor%}
+  {%else%}
+  <p>هیچ شخصی با سطح دسترسی قرعه‌کشی یافت نشد
+
+  </p>
+  {%endif%}
+
+   	</div>
+   </form>
+  </div>
+
+{%endblock%}
+

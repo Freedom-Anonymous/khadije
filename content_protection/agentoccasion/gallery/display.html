@@ -1,0 +1,30 @@
+{%extends display.admin%}
+{%use 'content_protection/agentoccasion/pageStep.html' %}
+
+{%block pageContent%}
+{{block ('pageStep')}}
+
+    {%for key, value in mediaTitle%}
+
+    <div class="cbox">
+      <h3>{{value.title}}</h3>
+      <form method="post" autocomplete="off">
+        {%if dataTable[key]%}
+        <div class="f">
+          {%for k, v in dataTable[key]%}
+          <div class="vcard mA10 c2 s12">
+            <a href="{{v}}" target="_blank">
+
+              <img alt="file" src="{{v}}">
+            </a>
+            <div class="footer txtRa"><div class=" " data-confirm data-data='{"remove" : "remove", "key" : "{{k}}", "field" : "{{key}}"}'><i class="sf-trash fc-red"></i></div></div>
+          </div>
+          {%endfor%}
+        </div>
+        {%endif%}
+      </form>
+    </div>
+    {%endfor%}
+
+{%endblock%}
+

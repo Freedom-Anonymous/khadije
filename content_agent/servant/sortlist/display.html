@@ -1,0 +1,158 @@
+{%extends display.admin%}
+
+
+
+{%block pageContent%}
+  <div class="f">
+
+   <div class="c s6">
+    <a class="dcard {%if requestGET.sort == 'date' or not requestGET.sort %} active {%endif%}" href='{{sortLink.date.link}}'>
+     <div class="statistic">
+      <div class="label">مرتب سازی بر اساس زمان اعزام</div>
+     </div>
+    </a>
+   </div>
+
+
+   <div class="c s6">
+    <a class="dcard {%if requestGET.sort == 'avg' %} active {%endif%}" href='{{sortLink.avg.link}}'>
+     <div class="statistic">
+      <div class="label">مرتب سازی بر اساس میانگین امتیاز</div>
+     </div>
+    </a>
+   </div>
+
+
+     <div class="c s6">
+    <a class="dcard {%if requestGET.sort == 'count' %} active {%endif%}" href='{{sortLink.count.link}}'>
+     <div class="statistic">
+      <div class="label">مرتب سازی بر اساس تعداد اعزام</div>
+     </div>
+    </a>
+   </div>
+
+
+  </div>
+
+
+
+
+{%if dataTable%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+  {{block('htmlFilter')}}
+
+ {%else%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlTable')}}
+
+ {%endif%}
+{%else%}
+ {%if dataFilter%}
+
+  {{block('htmlSearchBox')}}
+  {{block('htmlFilterNoResult')}}
+
+ {%else%}
+
+  {{block('htmlStartAddNew')}}
+
+ {%endif%}
+{%endif%}
+
+{%endblock%}
+
+
+
+
+{%block htmlSearchBox%}
+<div class="cbox fs12">
+  <form method="get" action='{{url.that}}'>
+    <input type="hidden" name="city" value="{{requestGET.city}}">
+    <div class="input">
+      <input type="search" name="q" placeholder='{%trans "Search"%}' id="q" value="{{requestGET.q}}" autofocus  data-pass='submit' autocomplete='off'>
+      <button class="addon btn ">{%trans "Search" %}</button>
+    </div>
+  </form>
+</div>
+{%endblock%}
+
+
+{%block htmlTable%}
+<div class="tblBox">
+
+  <table class="tbl1 v1 cbox fs12">
+    <thead>
+      <tr>
+        <th class="collapsing">&nbsp;</th>
+        <th data-sort="{{sortLink.user_id.order}}"><a href='{{sortLink.user_id.link}}'>{%trans "User"%}</a></th>
+        <th data-sort="{{sortLink.user_id.order}}"><a href='{{sortLink.user_id.link}}'>{%trans "Mobile"%}</a></th>
+
+
+        <th>تعداد اعزام</th>
+        <th>میانگین امتیاز</th>
+        <th>آخرین اعزام</th>
+
+
+        <th class="collapsing">ثبت اعزام</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {%for key, value in dataTable%}
+      <tr {%if value.status=='disable'%} class='negative' {%else%} class='positive' {%endif%}>
+        <td class="collapsing"><img src="{{value.avatar}}" class="avatar"></td>
+
+        <td><a href="{{url.here}}/send/add?user={{value.user_id}}&sid={{value.id}}&city={{value.city}}&job={{value.job}}">{{value.displayname}}</a></td>
+        <td>{{value.mobile| fitNumber('mobile')}}</td>
+
+
+
+        <td>{{value.send_count | fitNumber}}</td>
+        <td>{{value.send_avg | fitNumber}} {%trans "%"%}</td>
+
+
+        <td>{{value.max_startdate |dt(null, 'date')}} <br><b>{{value.max_startdate |dt('human', 'year')}}</b> </td>
+
+
+
+
+        </td>
+        <td class="collapsing">
+
+          <a class="btn success" href="{{url.here}}/send/add?user={{value.user_id}}&sid={{value.id}}&city={{value.city}}&job={{value.job}}">{%trans "Dispatch"%}</a>
+
+        </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  {%include display.pagination%}
+
+</div>
+{%endblock%}
+
+
+{%block htmlFilter%}
+<p class="f fs14 msg info2">
+  <span class="c">{{dataFilter | raw}}</span>
+  <a class="cauto" href="{{url.that}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlFilterNoResult%}
+<p class="f fs14 msg warn2">
+  <span class="c">{%trans "Result not found!"%} {%trans "Search with new keywords."%}</span>
+  <a class="cauto" href="{{url.that}}">{%trans "Clear filters"%}</a>
+</p>
+{%endblock%}
+
+
+{%block htmlStartAddNew%}
+<p class="fs14 msg success2 pTB20">{%trans "Hi!"%} <a href="{{url.that}}/add">{%trans "Try to start with add new servant!"%}</a></p>
+{%endblock%}
+

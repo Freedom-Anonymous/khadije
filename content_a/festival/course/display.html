@@ -1,0 +1,53 @@
+{%extends display.admin%}
+
+
+{%block pageContent%}
+
+{%if  paymentVerifyMsg %}
+<div class="msg txtC {%if paymentVerifyMsgTrue %}success{%else%}danger{%endif%}">{{ paymentVerifyMsg}}</div>
+{%endif%}
+<div class='middle normal f justify-center'>
+  <div class="c4">
+    <div class="cbox mA5">
+      <div class="msg primary2 txtC"><b>{{course.title}}</b></div>
+      <div class="msg">{{course.desc}}</div>
+      {%if course.price%}
+        <div class="msg">{%trans "Signup price"%}{{course.price| fitNumber }} {%trans "Toman"%}</div>
+      {%endif%}
+
+
+      {%if checkDuplicate%}
+      <a href="{{url.this}}?id={{requestGET.id}}" class="btn success block">{%trans "You are register to this course before"%}</a>
+      {%else%}
+
+
+      <form method="post">
+
+        <input type="hidden" name="pay" value="1">
+        {%if course.price%}
+          <button class="btn primary block">{%trans "Pay & Register"%}</button>
+        {%else%}
+          <button class="btn primary block">{%trans "Register"%}</button>
+        {%endif%}
+      </form>
+      {%endif%}
+    </div>
+  </div>
+  <div class="c8">
+    <div class="cbox mA5">
+      <div class="msg">
+        <div class="txtB">{%trans "Conditions"%}</div>
+        <div>{{course.condition| raw}}</div>
+      </div>
+    </div>
+    <div class="cbox mA5">
+      <div class="msg">
+        <div class="txtB">{%trans "Condition send"%}</div>
+        <div>{{course.conditionsend| raw}}</div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+{%endblock%}

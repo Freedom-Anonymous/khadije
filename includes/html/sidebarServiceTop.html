@@ -1,0 +1,40 @@
+{%if perm('contentCp')%}
+<li>
+	<a href="{{url.kingdom}}/m" {%if url.content == "m"%} class="activeContent"{%endif%}><i class='sf-gauge'></i> {% trans "Manage"%}</a>
+</li>
+{%endif%}
+
+
+{%if perm('smsAppSetting') %}
+  <li><a href="{{url.kingdom}}/smsapp"><i class='sf-mail'></i> سامانه پیامرس</a></li>
+{%endif%}
+
+
+{%if perm('ContentMokeb') %}
+  <li><a href="{{url.kingdom}}/mokeb"><i class='sf-pin'></i> سامانه رزرو موکب</a></li>
+{%endif%}
+
+
+{%if perm('contentAgent') %}
+        <li><a href="{{url.kingdom}}/agent" {%if url.content == "agent" %} class="activeContent"{%endif%}><i class='sf-out'></i> سامانه مدیریت اعزام</a></li>
+{%endif%}
+
+
+
+{%if perm('contentLottery') %}
+        <li><a href="{{url.kingdom}}/lottery" {%if url.content == "lottery" %} class="activeContent"{%endif%}><i class='sf-atom'></i> {% trans "Lottery system"%}</a></li>
+{%endif%}
+
+
+{%if perm('cpFestivalView') %}
+        <li><a href="{{url.kingdom}}/m/festival" {%if url.content == "m" and url.module == "festival"%} class="activeContent"{%endif%}><i class='sf-magic'></i> سامانه مدیریت جشنواره</a></li>
+{%endif%}
+
+{%if perm('contentProtection') %}
+        <li><a href="{{url.kingdom}}/protection" {%if url.content == "protection" %} class="activeContent"{%endif%}><i class='sf-hand-hold'></i> مدیریت افراد تحت پوشش</a></li>
+{%endif%}
+
+
+{%if login%}
+        <li><a href="{{url.kingdom}}/a" {%if url.content == "a"%} class="activeContent"{%endif%}><i class='sf-gauge'></i> سامانه خدمات مردمی</a></li>
+{%endif%}

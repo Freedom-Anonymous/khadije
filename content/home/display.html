@@ -1,0 +1,43 @@
+{%extends display.main%}
+
+
+{%block content%}
+
+{%include "content/home/header-slider.html" %}
+{%include "content/home/header-badges.html" %}
+
+
+{%if homevideoSaved.status and homevideoSaved.code%}
+<div class="introVideo">
+  <div id="videoBox">
+    <script type="text/JavaScript" src="https://www.aparat.com/embed/{{homevideoSaved.code}}?data[rnddiv]=videoBox&data[responsive]=yes" async></script>
+  </div>
+</div>
+{%endif%}
+
+{%include "content/home/billing.html" %}
+{%include "content/home/lastNews.html" %}
+
+  <section class="f justify-center picto fs09">
+    <div class="c4 s">
+      <a href="{{url.here}}/category/mokeb-report">
+        <div class="sprite-lottory"></div>
+        <h2>{%trans "Mokeb Reports"%}</h2>
+      </a>
+    </div>
+    <div class="c4 s shahidImani">
+      <a href="{{url.here}}/shahid-mahdi-imani" class="mLR20">
+        <div class="sprite-imani"></div>
+        <h3 class="hide">{%trans "Shahid Mahdi Imani"%}</h3>
+      </a>
+    </div>
+    <div class="c4 s">
+      <a href="{{url.here}}/manager">
+        <div class="sprite-adminContact"></div>
+        <h2>{%trans "Contact with manager"%}</h2>
+      </a>
+    </div>
+  </section>
+
+{%endblock%}
+

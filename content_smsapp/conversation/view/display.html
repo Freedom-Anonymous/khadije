@@ -1,0 +1,179 @@
+{%extends 'content_smsapp/layout.html'%}
+
+
+{%block pageContent%}
+
+<div class="f justify-center">
+  <div class="c12 m12 s12 x8">
+    <div class="cbox">
+      <div class="f">
+        <div class="c2">
+          <img src="{{currentUser.avatar}}" class="w100">
+        </div>
+        <div class="c10">
+
+          <div class="f">
+            <div class="c"><div class="txtB">{{currentUser.displayname}}</div></div>
+            <div class="cauto"><div class="txtB mLa5 fc-black">{{currentUser.mobile | fitNumber('mobile')}}</div></div>
+            <div class="c12 mB20"></div>
+            <div class="c12 mB20"></div>
+
+            <div class="c">&nbsp;</div>
+              <div class="cauto">
+                <div class="showOtherBtn" data-kerkere-content='hide'>
+                  {%if isBlock%}
+                    <span class="btn mLa10 danger" data-ajaxify data-data='{"unblock": "mobile", {{platoonGetJson}}} "uid": "{{isBlock.id}}"}' data-method='post'>{%trans "Unblock mobile"%}</span>
+                  {%elseif isSecred%}
+                    {%set NoBtn = true%}
+                  {%else%}
+                    <span class="btn mLa10 danger2 outline" data-ajaxify data-data='{"block": "mobile" {{platoonGetJson}}}' data-method='post'>{%trans "Block mobile"%}</span>
+                    <span class="btn mLa10 secondary outline" data-confirm data-data='{"secret": "mobile" {{platoonGetJson}}}' data-method='post'>{%trans "Secret mobile"%}</span>
+                  {%endif%}
+                </div>
+              </div>
+              <div class="cauto">{%if not NoBtn%}<div class="btn mLa10 outline" data-kerkere='.showOtherBtn' >...</div>{%endif%}</div>
+
+            <div class="cauto"><a class="btn mLa10 outline" href="{{url.kingdom}}/crm/member/general?id={{currentUser.user_code}}">{%trans "Edit profile"%}</a></div>
+            {%if needArchive%}
+              <div class="cauto"><div class="btn mLa10 info2 outline" data-ajaxify data-data='{"archive": "conversation" {{platoonGetJson}}}' data-method='post'>{%trans "Archive"%}</div></div>
+            {%endif%}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <form method="post" autocomplete="off" class="showAnswer" >
+      <div class="cbox">
+
+
+       <div class="f mB10">
+        {%for key,value in groupList%}
+          <div class="c">
+            <div class="radio3 mB5 mRa5" >
+              <input {%if dataRow.answertext %} disabled {%endif%} type="radio" name="group_id" value="{{value.id}}" id="group_{{value.id}}" {%if dataRow.group_id == value.id or (not dataRow.group_id and not value.id)  %} checked {%endif%} onclick="clearAnswerTxt(this);">
+              <label for="group_{{value.id}}">{{value.title}}</label>
+            </div>
+          </div>
+        {%endfor%}
+        </div>
+
+          {%for group_id, answers in dataAnswer%}
+        <div data-response='group_id' data-response-effect='slide' data-response-where='{{group_id}}' data-response-hide>
+          {%for key, value in answers %}
+          <div class="btn outline primary mA5" onclick="setAnswerText('{{value.text  | url_encode}}');">{{value.text}}</div>
+          {%endfor%}
+        </div>
+        {%endfor%}
+
+
+
+        <div class="input mB10">
+          <textarea class="txt" name="answer" id="ianswertxt" rows="5" placeholder='{%trans "Write text here ..."%}'></textarea>
+        </div>
+
+        {{block('fromGatewayForm')}}
+
+        <footer class="txtRa">
+          <button class="btn primary">{%trans "Send"%}</button>
+        </footer>
+      </div>
+    </form>
+
+
+
+{%for key, value in dataTable%}
+  {%if value.answertext%}
+  <div class="cbox mB5-f info2">
+    <div class="f ">
+      <div class="c"> <p>{{value.answertext | raw | nl2br}}</p></div>
+      <div class="cauto ltr txtL" title="receivestatus: {{value.receivestatus}}">{{value.dateanswer | dt}}</div>
+    </div>
+  </div>
+  {%endif%}
+  {%if value.text%}
+  <div class="cbox mB5-f">
+    <div class="f">
+      <div class="c"> <p class="txtB">{%if isSecred%}<i class="fc-mute">{%trans "Private"%} </i> {%else%}<span class="fc-black">{{value.text | raw | nl2br}}{%endif%}</span></p></div>
+      {%if value.group_id  and allGroup[value.group_id]['title']%}
+      <div class="cauto txtL"><a href="{{url.here}}/editgroup?id={{value.group_id | coding('encode')}}"><span class=" mRa5 badge rounded secondary">{{allGroup[value.group_id]['title']}}</span></a></div>
+      {%elseif value.recommand_id  and allGroup[value.recommand_id]['title']%}
+      <div class="cauto txtL"><a href="{{url.here}}/editgroup?id={{value.recommand_id | coding('encode')}}"><span class=" mRa5 badge rounded secondary2">{{allGroup[value.recommand_id]['title']}}</span></a></div>
+      {%endif%}
+      <div class="cauto fc-black ltr txtL" title="sendstatus: {{value.sendstatus}}">{{value.datecreated | dt}}</div>
+      {%if perm_su() %}<div class="cauto fc-black ltr txtL">{%if value.conversation_answered%}<i class="badge rounded success mLa5">&nbsp;</i>{%else%}<i class="badge rounded danger mLa5">&nbsp;</i>{%endif%}</div>{%endif%}
+
+    </div>
+  </div>
+  {%endif%}
+
+{%endfor%}
+
+  {%include display.pagination%}
+
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  function setAnswerText($_text)
+  {
+    $('#ianswertxt').val(decodeURIComponent($_text));
+  }
+  function clearAnswerTxt()
+  {
+    $('#ianswertxt').val('');
+  }
+</script>
+
+
+{%endblock%}
+
+
+
+{%block fromGatewayForm%}
+  <label for="fromgateway">{%trans "Send by gateway"%}</label>
+  <select name="fromgateway" class="select ui dropdown search mB10" id="fromgateway">
+  <option value="0" readonly>{%trans "Please select one item"%} *</option>
+    <option value="{{requestGET.platoon}}">{{requestGET.platoon | fitNumber('mobile')}} <small>{%trans "From the sender"%}</small></option>
+    <option value="10006660066600" selected>{{10006660066600 | fitNumber(false)}} <small>{%trans "From the sms panel"%}</small></option>
+  </select>
+
+{%endblock%}
+
+
+
+
+
+{%block sssssssssssssssss%}
+  'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'14198'</font> <i>(length=5)</i>
+  'fromnumber' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'+989914'</font> <i>(length=7)</i>
+  'togateway' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'989127522690'</font> <i>(length=12)</i>
+  'fromgateway' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'text' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'شما&#10;3 تماس بی پاسخ از 09122539712 در 16:01 01/04/1398 دارید&#10;خریدبسته های دیتا با #2100'</font> <i>(length=125)</i>
+  'smscount' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'125'</font> <i>(length=3)</i>
+  'tonumber' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'user_id' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'date' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'2019-06-22 16:33:21'</font> <i>(length=19)</i>
+  'datecreated' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'2019-06-22 16:33:23'</font> <i>(length=19)</i>
+  'datemodified' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'2019-07-23 11:32:18'</font> <i>(length=19)</i>
+  'uniquecode' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'receivestatus' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'block'</font> <i>(length=5)</i>
+  'sendstatus' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'amount' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'answertext' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'answertextcount' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'group_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'16'</font> <i>(length=2)</i>
+  'recommend_id' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'datereceive' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'2019-06-22 16:33:23'</font> <i>(length=19)</i>
+  'dateanswer' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'datesend' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  'brand' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'HUAWEI'</font> <i>(length=6)</i>
+  'model' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'INE-LX1r'</font> <i>(length=8)</i>
+  'simcartserial' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'89981139000039522114'</font> <i>(length=20)</i>
+  'smsmessageid' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'android.telephony.SmsMessage@ac3b398'</font> <i>(length=36)</i>
+  'userdata' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'[B@59bf7f1'</font> <i>(length=10)</i>
+  'md5'
+{%endblock%}

@@ -1,0 +1,133 @@
+{%extends 'content_m/layout.html'%}
+
+
+
+{%block GlanceDetail%}
+  <div class="f">
+    <div class="c s12">
+      <div class="dcard x1">
+       <div class="statistic blue">
+        <div class="value">{{totalPaid | fitNumber}}</div>
+        <div class="label">{%trans "Total Donation"%}</div>
+       </div>
+      </div>
+    </div>
+
+    <div class="cauto s6">
+      <div class="dcard x1">
+       <div class="statistic">
+        <div class="value">{{totalPaidDate | fitNumber}}</div>
+        <div class="label">{%trans "Today Donation"%}</div>
+       </div>
+      </div>
+    </div>
+
+    <div class="cauto s6">
+      <div class="dcard x1">
+       <div class="statistic">
+        <div class="value">{{totalPaidCount | fitNumber}}</div>
+        <div class="label">{%trans "Donation Count"%}</div>
+       </div>
+      </div>
+    </div>
+    <div class="cauto s12">
+      <div class="dcard x1">
+       <div class="statistic brown">
+        <div class="value">{%if totalPaidCount%}{{ (totalPaid / totalPaidCount) | round(-3) | fitNumber}} {%else%}-{%endif%}</div>
+        <div class="label">{%trans "Donation Average"%}</div>
+       </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}
+
+
+{%block pageContent%}
+{{block('GlanceDetail')}}
+<div class="f">
+	<div class="c6">
+		{{block('rDaily')}}
+	</div>
+
+	<div class="c6">
+		{{block('rMonth')}}
+	</div>
+
+	<div class="c6">
+		{{block('rCounttransaction')}}
+	</div>
+
+	<div class="c6">
+		{{block('hazinekardChard')}}
+	</div>
+
+	<div class="c6">
+		{{block('rWhitname')}}
+	</div>
+
+	<div class="c6">
+		{{block('rTravel')}}
+	</div>
+</div>
+
+
+{%endblock%}
+
+
+{%block rTravel%}
+<a class="dcard x1" href='{{url.here}}/report/travel'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report travel"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+{%block rWhitname%}
+<a class="dcard x1" href='{{url.here}}/report/withname'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report Count transaction group by name"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+{%block rCounttransaction%}
+<a class="dcard x1" href='{{url.here}}/report/counttransaction'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report Count transaction group by payment and hazinekard"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block hazinekardChard%}
+<a class="dcard x1" href='{{url.here}}/report/hazinekard'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report sum transaction group by hazinekard"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+{%block rDaily%}
+<a class="dcard x1" href='{{url.here}}/report/daily'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report daily"%}</div>
+ </div>
+</a>
+{%endblock%}
+
+
+
+{%block rMonth%}
+<a class="dcard x1" href='{{url.here}}/report/month'>
+ <div class="statistic">
+  <div class="value"></div>
+  <div class="label">{%trans "Report Month"%}</div>
+ </div>
+</a>
+{%endblock%}
